@@ -15,21 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping
 public class LoginController {
-	
-//	@RequestMapping(value = "/index")
-//	public String index() {
-//		return "base/index";
-//	}
-	
-	@RequestMapping(value = "/index")
-	public String index() {
-		return "base/index";
-	}
-	
-	@RequestMapping(value = "/sys")
-	public String sys() {
-		return "base/sys/sys";
-	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {

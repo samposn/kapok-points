@@ -102,14 +102,6 @@
         return this.resources[resourceCode];
     };
 
-    Main.prototype.getMeshName = function(meshId) {
-        return this.mesh[meshId] ? this.mesh[meshId].meshName : '';
-    };
-
-    Main.prototype.getMesh = function(meshId) {
-        return this.mesh[meshId];
-    };
-
     Main.prototype.show = function(options) {
         var options = options || {},
             defaultOptions = {

@@ -34,21 +34,6 @@
 	
 	<bean id="controllerAspect" class="com.gdgxwl.base.common.ControllerAspect"></bean>
 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="${c3p0.driverClass}" />
-		<property name="jdbcUrl" value="${c3p0.jdbcUrl}" />
-		<property name="user" value="${c3p0.user}" />
-		<property name="password" value="${c3p0.password}" />
-		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
-		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
-		<property name="checkoutTimeout" value="${c3p0.checkoutTimeout}" />
-		<property name="maxStatements" value="${c3p0.maxStatements}" />
-		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
-		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
-	</bean>
-
-
 	<bean id="hibernateJpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="databasePlatform">

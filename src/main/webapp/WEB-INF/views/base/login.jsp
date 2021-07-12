@@ -22,7 +22,7 @@
 <div class="loginframe">
 	<div class="mid">
         <div class="title">
-        	<img src="${ctx}/resources/images/logo_48.png">
+<%--        	<img src="${ctx}/resources/images/logo_48.png">--%>
         	${system_name}
         </div>
         <div class="top">账号登录</div>
@@ -103,7 +103,7 @@
 			}).done(function(res) {
 				$("#loginForm")[0].reset();
 				if (res.resultCode == "0") {
-					window.location.href = "${ctx}/index";
+					window.location.href = "${ctx}/home";
 				} else {
 					$('.miss').text(res.resultMsg)
 				}

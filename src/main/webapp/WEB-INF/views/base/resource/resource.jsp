@@ -248,15 +248,15 @@
 	// 保存
 	function save() {
 		if ($("#dataForm").form("validate")) {
-			main.showWaiting();
+			$.messager.progress();
 			var data = getFormData("#dataForm");
 			$.ajax({
 				type: "POST",
 				url: "${ctx}/resource/save",
 				data: data
 			}).done(function(res) {
-				main.closeWaiting();
-				if (res.resultCode == "0") {
+				$.messager.progress("close");
+				if (res.resultCode === 0) {
 					if ($("#id").val()) {
 						$("#dataForm").form("load", res.row);
 					} else {
