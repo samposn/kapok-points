@@ -47,6 +47,11 @@ public class PointsRecordController {
         return "points/record/record-add";
     }
 
+    @RequestMapping(value = "/query")
+    public String query() {
+        return "points/record/record-query";
+    }
+
     // 查询记录
     @RequestMapping(value = "/search")
     @ResponseBody

@@ -23,15 +23,17 @@
 <div class="g-layout">
 	<!-- 按钮区域 -->
 	<div class="g-toolbar">
-		<a id="add" class="easyui-linkbutton toolbar g-button" onclick="add()"><i class="fa fa-plus"></i>新增</a>
-		<shiro:hasPermission name="USER_DEL">
+		<shiro:hasPermission name="PRODUCT_ADD">
+			<a id="add" class="easyui-linkbutton toolbar g-button" onclick="add()"><i class="fa fa-plus"></i>新增</a>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="PRODUCT_DEL">
 			<a id="del" class="easyui-linkbutton toolbar g-button" onclick="del()"><i class="fa fa-trash-o"></i>删除</a>
 		</shiro:hasPermission>
-		<shiro:hasPermission name="USER_EDIT">
+		<shiro:hasPermission name="PRODUCT_EDIT">
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 		</shiro:hasPermission>
 		<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
-		<a id="save" class="easyui-linkbutton toolbar g-button"><i class="fa fa-floppy-o"></i>复制授权地址</a>
+		<a id="copy" class="easyui-linkbutton toolbar g-button" onclick="copy()"><i class="fa fa-copy"></i>复制授权地址</a>
 	</div>
 
 	<!-- 内容区域 -->
@@ -141,17 +143,16 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "edit"]);
-						$("#mainTabs").tabs("enableTab", 1);
+						enableButtons(["add", "del", "edit", "copy"]);
 					} else {
 						enableButtons(["add"]);
-						$("#mainTabs").tabs("disableTab", 1);
 					}
+					$("#mainTabs").tabs("disableTab", 1);
 				}
 				if (index == 1) {
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
 						enableButtons(["add", "save"]);
-						loadUserData();
+						loadProductData();
 					} else {
 						enableButtons(["add", "save"]);
 					}
@@ -177,8 +178,8 @@
 				{field : "productOperator", title : "经手人", width : 100, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit"]);
-				$("#mainTabs").tabs("enableTab", 1);
+				enableButtons(["add", "del", "edit", "copy"]);
+				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
 			onUnselectAll : function(rowIndex, rowData) {
@@ -259,6 +260,7 @@
 		var index = $("#mainTabs").tabs("getTabIndex", tab);
 		editable = true;
 		if (index == 0) {
+			$("#mainTabs").tabs("enableTab", 1);
 			$("#mainTabs").tabs("select", 1);
 		}
 		if (index == 1) {
@@ -268,12 +270,12 @@
 	
 	// 加载商品数据
 	function loadProductData() {
-		var row = $("#listGrid").datagrid("getSelected");
+		let row = $("#listGrid").datagrid("getSelected");
 		if (row) {
 			$.messager.progress();
 			$.ajax({
 				type: "GET",
-				url: "${ctx}/product/get/" + row.userId,
+				url: "${ctx}/product/get/" + row.productId,
 			}).done(function(res){
 				$.messager.progress("close");
 				if (res.resultCode === 0) {
@@ -320,6 +322,18 @@
 				$.messager.alert("温馨提示", "保存出错！", "error");
 			});
 		}
+	}
+
+	function copy() {
+		let row = $("#listGrid").datagrid("getSelected");
+		let input = document.createElement('input');
+		document.body.appendChild(input);
+		input.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + row.productId);
+		input.select();
+		if (document.execCommand('copy')) {
+			document.execCommand('copy');
+		}
+		document.body.removeChild(input);
 	}
 
 	function _setFormEditable(editable) {

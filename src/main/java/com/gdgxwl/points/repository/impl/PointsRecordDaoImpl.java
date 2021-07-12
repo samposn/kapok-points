@@ -2,6 +2,8 @@ package com.gdgxwl.points.repository.impl;
 
 import com.gdgxwl.core.common.persistence.SearchFilter;
 import com.gdgxwl.core.repository.impl.BaseDaoImpl;
+import com.gdgxwl.core.repository.impl.Field;
+import com.gdgxwl.core.repository.impl.ResultFields;
 import com.gdgxwl.points.repository.PointsRecordDaoPlus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,25 +21,42 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
     @Override
     public Page<Map<String, Object>> search(
         Map<String, SearchFilter> conditions, Pageable pageable) {
+
+        ResultFields fields = new ResultFields();
+        fields.addField("record_platform")
+            .addField("record_penname")
+            .addField("record_uid")
+            .addField("record_qq")
+            .addField("product_name")
+            .addField("product_price")
+            .addField("product_add_points")
+            .addField("product_minus_points")
+            .addField("product_copyright")
+            .addField("product_operator")
+            .addField("record_payment_type")
+            .addField("record_tabbao_num")
+            .addField("create_time", Field.DataType.Timestamp);
+
         String sql = "SELECT "
-            + " 	r.RECORD_PLATFORM AS record_platform "
-            + " 	,r.RECORD_PENNAME AS record_penname "
-            + " 	,r.RECORD_UID AS record_uid "
-            + " 	,r.RECORD_QQ AS record_qq "
-            + " 	,p.PRODUCT_NAME AS product_name "
-            + " 	,p.PRODUCT_PRICE AS product_price "
-            + " 	,p.PRODUCT_ADD_POINTS AS product_add_points "
-            + " 	,p.PRODUCT_MINUS_POINTS AS product_minus_points "
-            + " 	,p.PRODUCT_COPYRIGHT AS product_copyright "
-            + " 	,p.PRODUCT_OPERATOR AS product_operator "
-            + " 	,r.RECORD_PAYMENT_TYPE AS record_payment_type "
-            + " 	,r.RECORD_TAOBAO_NUM AS record_tabbao_num"
+            + " 	r.RECORD_PLATFORM "
+            + " 	,r.RECORD_PENNAME "
+            + " 	,r.RECORD_UID "
+            + " 	,r.RECORD_QQ "
+            + " 	,p.PRODUCT_NAME "
+            + " 	,p.PRODUCT_PRICE "
+            + " 	,p.PRODUCT_ADD_POINTS "
+            + " 	,p.PRODUCT_MINUS_POINTS "
+            + " 	,p.PRODUCT_COPYRIGHT "
+            + " 	,p.PRODUCT_OPERATOR "
+            + " 	,r.RECORD_PAYMENT_TYPE "
+            + " 	,r.RECORD_TAOBAO_NUM "
+            + "     ,r.CREATE_TIME "
             + " FROM "
             + " 	points_record r "
             + " 	LEFT JOIN points_product p ON r.product_id = p.product_id "
             + " WHERE "
             + "     1 = 1 ";
-        return selectBySqlPageable(sql, conditions, pageable);
+        return selectBySqlPageable(sql, conditions, pageable, fields);
     }
 
 }

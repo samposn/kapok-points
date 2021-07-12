@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans.xsd">
+                  http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<description>Shiro安全配置</description>
 
@@ -17,7 +17,7 @@
 	</bean>
 
 	<bean
-		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+			class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
 
@@ -49,6 +49,8 @@
 				/usertest/** = anon
 				/logout = anon
 				/resources/** = anon
+				/record/add/* = anon
+				/record/query = anon
 				/** = authc
 			</value>
 		</property>

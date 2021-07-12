@@ -9,11 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${system_name}</title>
 
-    <link rel="shortcut icon" href="${ctx}/resources/images/logo_16.ico">
+    <%--    <link rel="shortcut icon" href="${ctx}/resources/images/logo_16.ico">--%>
     <link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
 
     <!--[if IE 7]>
     <link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome-ie7.min.css">
@@ -129,72 +128,76 @@
 <script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.easyui.min.js"></script>
 <script type="text/javascript">
 
-function tijiao() {
+    function tijiao() {
 
-    let isValidate = false;
+        let blanks = 4;
 
-    $.each($('.required'), function(i, x) {
-        let e = $(x);
-        if (!e.val()) {
-            e.parent().parent().addClass('has-error');
-            e.attr('placeholder', '必须填写');
-            isValidate = false;
-        } else {
-            e.parent().parent().removeClass('has-error');
-        }
-        isValidate = true;
-    });
-
-    if (isValidate) {
-        $.messager.progress();
-        let data = getFormData("#recordForm")
-        $.ajax({
-            type : "POST",
-            url : "${ctx}/record/save",
-            data : data
-        }).done(function(res) {
-            $.messager.progress("close");
-            if (res.resultCode === 0) {
-                $.messager.show({
-                    title: "温馨提示",
-                    msg: "操作成功",
-                    timeout: 2500,
-                    showType: "slide"
-                });
-                $('input').attr('readonly', true);
-                $('button').attr('disabled', 'disabled');
+        $.each($('.required'), function(i, x) {
+            let e = $(x);
+            if (e.val()) {
+                e.parent().parent().removeClass('has-error');
+                blanks -= 1;
             } else {
-                $.messager.alert("温馨提示", res.resultMsg, "error");
+                e.parent().parent().addClass('has-error');
+                e.attr('placeholder', '必须填写');
+                blanks += 1;
             }
-        }).fail(function() {
-            $.messager.progress("close");
-            $.messager.alert("温馨提示", "保存出错！", "error");
         });
+
+        if (blanks === 0) {
+            $.messager.progress();
+            let data = getFormData("#recordForm")
+            $.ajax({
+                type : "POST",
+                url : "${ctx}/record/save",
+                data : data
+            }).done(function(res) {
+                $.messager.progress("close");
+                if (res.resultCode === 0) {
+                    $.messager.show({
+                        title: "温馨提示",
+                        msg: "操作成功",
+                        timeout: 2500,
+                        showType: "slide"
+                    });
+                    $('input').attr('readonly', true);
+                    $('button').attr('disabled', 'disabled');
+                } else {
+                    $.messager.alert("温馨提示", res.resultMsg, "error");
+                }
+            }).fail(function() {
+                $.messager.progress("close");
+                $.messager.alert("温馨提示", "保存出错！", "error");
+            });
+        }
+
     }
 
-}
+    function isValidate() {
 
-// 获取表单数据
-function getFormData(dataForm) {
-    let data = {};
-    let fields = $(dataForm).find(':input:not(:radio, :checkbox)');
-    let radioFields = $(dataForm).find(':input:radio:checked');
-    fields.each(function(index, element) {
-        let fieldName = $(element).attr('name');
-        let fieldValue = $(element).val();
-        if (fieldName) {
-            data[fieldName] = fieldValue;
-        }
-    });
-    radioFields.each(function(index, element) {
-        let fieldName = $(element).attr('name');
-        let fieldValue = $(element).val();
-        if (fieldName) {
-            data[fieldName] = fieldValue;
-        }
-    });
-    return data;
-}
+    }
+
+    // 获取表单数据
+    function getFormData(dataForm) {
+        let data = {};
+        let fields = $(dataForm).find(':input:not(:radio, :checkbox)');
+        let radioFields = $(dataForm).find(':input:radio:checked');
+        fields.each(function(index, element) {
+            let fieldName = $(element).attr('name');
+            let fieldValue = $(element).val();
+            if (fieldName) {
+                data[fieldName] = fieldValue;
+            }
+        });
+        radioFields.each(function(index, element) {
+            let fieldName = $(element).attr('name');
+            let fieldValue = $(element).val();
+            if (fieldName) {
+                data[fieldName] = fieldValue;
+            }
+        });
+        return data;
+    }
 
 </script>
 </body>
