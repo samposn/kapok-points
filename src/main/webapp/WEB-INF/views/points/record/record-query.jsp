@@ -7,92 +7,104 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${system_name}</title>
-
-    <%--    <link rel="shortcut icon" href="${ctx}/resources/images/logo_16.ico">--%>
-    <link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome.min.css">
-    <!--[if IE 7]>
-   <link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome-ie7.min.css">
-   <![endif]-->
-    <link rel="stylesheet" href="${ctx}/resources/libs/${jqueryEasyui}/themes/metro-blue/easyui.css">
-    <link rel="stylesheet" href="${ctx}/resources/libs/${jqueryEasyui}/themes/icon.css">
-    <link rel="stylesheet" href="${ctx}/resources/css/gxwlui.css">
-    <link rel="stylesheet" href="${ctx}/resources/css/page.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="${ctx}/resources/css/record-query.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+        }
+        .form-signin {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+        .form-signin label {
+            color: white;
+            line-height: 2rem;
+        }
+        .form-control {
+            border-radius: 3rem;
+            height: 2rem;
+            border: 1px solid rgb(255, 218, 146);
+        }
+        .form-control:focus {
+            border: 1px solid rgb(238, 188, 91);
+        }
+        .title {
+            color: white;
+            font-family: serif;
+            text-align: center;
+        }
+        .title p {
+            font-size: 3.25rem;
+            letter-spacing: .25rem;
+        }
+        .title p span{
+            font-size: 1.5rem;
+            display: block;
+            padding-left: 28rem;
+        }
+        .tips {
+            font-style: italic;
+        }
+    </style>
 </head>
 
 <body>
-<div class="g-layout" style="width:80%;margin:0 auto;">
-    <!-- 内容区域 -->
-    <br><h1>授权查询</h1><br>
-    <div id="mainTabs" class="easyui-tabs g-container g-tabs1" data-options="fit:true,border:false">
-        <div title="列表" style="position:relative;">
-            <div class="query-area">
-                <form id="queryForm" method="post">
-                    <table class="g-form" cellpadding="0" cellspacing="0">
-                        <tbody>
-                        <tr>
-                            <td class="form-cell-1">
-                                <label class="form-label">UID</label>
-                                <input name="q_record_uid_EQ" class="easyui-validatebox form-control" data-options="required: true">
-                            </td>
-                            <td class="form-cell-1">
-                                <label class="form-label">QQ</label>
-                                <input name="q_record_qq_EQ" class="easyui-validatebox form-control" data-options="required: true">
-                            </td>
-                            <td class="form-cell-1">
-                                <a onclick="query()" class="easyui-linkbutton g-button"><i class="fa fa-search"></i>查询</a>
-                                <a onclick="clearQueryForm('#queryForm');query()" class="easyui-linkbutton g-button"><i class="fa fa-reply"></i>重置</a>
-                            </td>
-                            <td class="form-cell-1"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-            <!-- 列表区域 -->
-            <div class="list-area" style="top:45px;height:90%">
-                <table id="listGrid" style="height:100%"></table>
-            </div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-6 title">
+            <p>WUYAOYAO STUDIO<span>授权查询</span></p>
         </div>
     </div>
+    <div class="mt-5">&nbsp;</div>
+    <div class="row">
+        <main class="form-signin">
+            <form action="${ctx}/record/query/show">
+                <div class="row">
+                    <div class="col-2">
+                        <label for="record_qq">QQ</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control col-11" id="record_qq">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2">
+                        <label for="record_uid">UID</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control" id="record_uid">
+                    </div>
+                </div>
+                <div class="mt-3">&nbsp;</div>
+                <div class="text-center mt-5">
+                    <button type="sumbit" class="btn btn-md">查询</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-md">重置</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    <div class="row position-absolute bottom-0 start-0 ms-5">
+        <p class="text-muted tips">
+            官 方 Q 群：&nbsp;&nbsp;&nbsp;&nbsp;1 4 8 3 3 0 8 1 8&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;6 9 9 4 6 3 9 8 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店 长 热 线：&nbsp;&nbsp;&nbsp;&nbsp;9 3 4 4 2 0 8 1 1
+        </p>
+    </div>
 </div>
-
-<script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${ctx}/resources/js/gxwl.js"></script>
+<script src="https://unpkg.com/vue@3.1.4/dist/vue.global.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    $(function() {
-        $('#mainTabs').tabs('hideHeader');
-        $("#listGrid").datagrid({
-            rownumbers : true,
-            singleSelect : true,
-            autoRowHeight : false,
-            border : false,
-            pageSize : defaultPageSize,
-            pageList : defaultPageList,
-            pagination : true,
-            columns : [[
-                {field : "record_platform", title : "平台", width : 100, halign : 'center'},
-                {field : "record_uid", title : " UID", width : 100, halign : 'center'},
-                {field : "record_qq", title : "QQ", width : 100, halign : 'center'},
-                {field : "product_name", title : "商品", width : 100, halign : 'center'},
-                {field : "product_price", title : "价格", width : 100, halign : 'center'},
-                {field : "product_add_points", title : "获取积分", width : 100, halign : 'center'},
-                {field : "product_minus_points", title : " 扣除积分", width : 100, halign : 'center'},
-                {field : "record_payment_type", title : " 支付方式", width : 100, halign : 'center'}
-            ]]
-        });
-    });
-
-    function query() {
-        if ($("#queryForm").form("validate")) {
-            let url = "${ctx}/record/search"
-            $('#listGrid').datagrid('options').url = url;
-            $("#listGrid").datagrid("load", getFormData("#queryForm"));
-        }
-    }
-
 </script>
 </body>
+
 </html>

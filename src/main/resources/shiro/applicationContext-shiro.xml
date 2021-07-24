@@ -51,6 +51,9 @@
 				/resources/** = anon
 				/record/add/* = anon
 				/record/query = anon
+				/record/query/show = anon
+				/record/search = anon
+				/record/save = anon
 				/** = authc
 			</value>
 		</property>

@@ -52,6 +52,11 @@ public class PointsRecordController {
         return "points/record/record-query";
     }
 
+    @RequestMapping(value = "/query/show")
+    public String queryShow() {
+        return "points/record/record-query-show";
+    }
+
     // 查询记录
     @RequestMapping(value = "/search")
     @ResponseBody
