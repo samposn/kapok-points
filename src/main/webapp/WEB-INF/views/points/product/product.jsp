@@ -76,6 +76,7 @@
 				<input id="productId" name="productId" type="hidden">
 				<input id="createrId" name="createrId" type="hidden">
 				<input id="createTime" name="createTime" type="hidden">
+				<input id="productUrlExpires" name="productUrlExpires" type="hidden">
 				<table class="g-form" cellpadding="0" cellspacing="0">
 					<tbody>
 						<tr>
@@ -112,6 +113,8 @@
 									   data-options="required: true">
 							</td>
 							<td class="form-cell-1">
+								<label class="form-label" title="状态">状态</label>
+								<input id="productStatus" name="productStatus" class="easyui-validatebox form-control">
 							</td>
 							<td class="form-cell-1">
 							</td>
@@ -177,6 +180,7 @@
 				{field : "productMinusPoints", title : "扣除积分", width : 100, halign : 'right'},
 				{field : "productCopyright", title : "版权方", width : 100, halign : 'center'},
 				{field : "productOperator", title : "经手人", width : 100, halign : 'center'},
+				{field : "productStatus", title : "状态", width : 100, halign : 'center'},
 				{field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {

@@ -73,6 +73,12 @@ public class PointsProduct extends BaseEntity {
     @Column(name = "PRODUCT_URL_EXPIRES")
     private Date productUrlExpires;
 
+    /**
+     * 状态
+     */
+    @Column(name = "PRODUCT_STATUS", length = 50)
+    private String productStatus;
+
     public Integer getProductId() {
         return productId;
     }
@@ -135,5 +141,13 @@ public class PointsProduct extends BaseEntity {
 
     public void setProductUrlExpires(Date productUrlExpires) {
         this.productUrlExpires = productUrlExpires;
+    }
+
+    public String getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
     }
 }

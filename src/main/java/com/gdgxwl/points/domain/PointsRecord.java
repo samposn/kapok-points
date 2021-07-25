@@ -60,12 +60,6 @@ public class PointsRecord extends BaseEntity {
     private String recordTaobaoNum;
 
     /**
-     * 状态
-     */
-    @Column(name = "RECORD_STATUS", length = 50)
-    private String recordStatus;
-
-    /**
      * 商品 ID
      */
     @Column(name = "PRODUCT_ID")
@@ -135,11 +129,4 @@ public class PointsRecord extends BaseEntity {
         this.productId = productId;
     }
 
-    public String getRecordStatus() {
-        return recordStatus;
-    }
-
-    public void setRecordStatus(String recordStatus) {
-        this.recordStatus = recordStatus;
-    }
 }

@@ -74,7 +74,7 @@
         }
 
         .page-panel {
-            width: 22rem;
+            width: 24rem;
             margin: 0 auto;
             padding: 0.25rem 0;
             border-radius: 1rem;
@@ -90,6 +90,7 @@
             color: rgb(100, 100, 100);
         }
 
+        .page-select,
         .page-num {
             width: 3rem;
             height: 1.5rem;
@@ -97,6 +98,10 @@
             border-radius: 1rem;
             background-color: rgb(185, 185, 185);
             outline: none;
+        }
+
+        .page-select {
+            width: 3.5rem;
         }
 
         .tips {
@@ -156,7 +161,17 @@
                                         <a href="javascript:void(0)" onclick="next()"><i
                                                 class="bi bi-skip-end-fill"></i></a>&nbsp;&nbsp;
                                         <a href="javascript:void(0)" onclick="last()"><i
-                                                class="bi bi-skip-forward-fill"></i></a>
+                                                class="bi bi-skip-forward-fill"></i></a>&nbsp;&nbsp;
+                                        <select class="page-select ">
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="25">25</option>
+                                            <option value="30">30</option>
+                                            <option value="35">35</option>
+                                            <option value="40">40</option>
+                                            <option value="45">45</option>
+                                            <option value="50">50</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -198,9 +213,20 @@
         if (!qq || !uid) {
             $('#dataTableBody').append(noData);
         } else {
-            let params = {}
             loadData(currentPage);
         }
+
+        $(".page-num").blur(function(e) {
+            let page = $(e.target).val();
+            currentPage = Number(page < 1 ? 1 : page > totalPage ? totalPage : page);
+            loadData(currentPage);
+        });
+
+        $(".page-select").change(function(e) {
+            rows = $(e.target).val();
+            currentPage = 1;
+            loadData(currentPage);
+        });
     });
 
     function first() {
@@ -274,7 +300,7 @@
             '<td>' + (row.product_price||'') + '</td>' +
             '<td>' + (row.product_add_points||'') + '</td>' +
             '<td>' + (row.product_minus_points||'') + '</td>' +
-            '<td>' + (row.record_status||'') + '</td>' +
+            '<td>' + (row.product_status||'') + '</td>' +
             '</tr>';
         $('#dataTableBody').append(rowData);
     }

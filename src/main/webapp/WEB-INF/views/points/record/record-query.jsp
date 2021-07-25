@@ -119,7 +119,7 @@
 <script type="text/javascript">
 
     $(function()  {
-        $("input").blur(function(e){
+        $("input").blur(function(e) {
             check($(e.target));
         });
     });

@@ -34,9 +34,9 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             .addField("product_minus_points")
             .addField("product_copyright")
             .addField("product_operator")
+            .addField("product_status")
             .addField("record_payment_type")
             .addField("record_tabbao_num")
-            .addField("record_status")
             .addField("create_time", Field.DataType.Timestamp);
 
         String sql = "SELECT "
@@ -50,9 +50,9 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             + " 	,p.PRODUCT_MINUS_POINTS "
             + " 	,p.PRODUCT_COPYRIGHT "
             + " 	,p.PRODUCT_OPERATOR "
+            + "     ,p.PRODUCT_STATUS "
             + " 	,r.RECORD_PAYMENT_TYPE "
             + " 	,r.RECORD_TAOBAO_NUM "
-            + "     ,r.RECORD_STATUS "
             + "     ,r.CREATE_TIME "
             + " FROM "
             + " 	points_record r "
