@@ -8,6 +8,7 @@ import com.gdgxwl.points.repository.PointsRecordDaoPlus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +36,7 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             .addField("product_operator")
             .addField("record_payment_type")
             .addField("record_tabbao_num")
+            .addField("record_status")
             .addField("create_time", Field.DataType.Timestamp);
 
         String sql = "SELECT "
@@ -50,6 +52,7 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             + " 	,p.PRODUCT_OPERATOR "
             + " 	,r.RECORD_PAYMENT_TYPE "
             + " 	,r.RECORD_TAOBAO_NUM "
+            + "     ,r.RECORD_STATUS "
             + "     ,r.CREATE_TIME "
             + " FROM "
             + " 	points_record r "
@@ -58,5 +61,25 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             + "     1 = 1 ";
         return selectBySqlPageable(sql, conditions, pageable, fields);
     }
+
+    @Override
+    public List<Map<String, Object>> totalPoints(Map<String, SearchFilter> conditions) {
+
+        ResultFields fields = new ResultFields();
+        fields.addField("product_add_points")
+            .addField("product_minus_points");
+
+        String sql = "SELECT "
+            + " 	p.PRODUCT_ADD_POINTS "
+            + " 	,p.PRODUCT_MINUS_POINTS "
+            + " FROM "
+            + " 	points_record r "
+            + " 	LEFT JOIN points_product p ON r.product_id = p.product_id "
+            + " WHERE "
+            + "     1 = 1 ";
+
+        return selectBySql(sql, conditions, fields);
+    }
+
 
 }

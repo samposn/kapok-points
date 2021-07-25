@@ -33,7 +33,8 @@
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 		</shiro:hasPermission>
 		<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
-		<a id="copy" class="easyui-linkbutton toolbar g-button" onclick="copy()"><i class="fa fa-copy"></i>复制授权地址</a>
+		<a id="setProductUrlExpires" class="easyui-linkbutton toolbar g-button" onclick="setProductUrlExpires()"><i class="fa fa-cog"></i>设置链接有效时间</a>
+		<a id="copy" class="easyui-linkbutton toolbar g-button" onclick="copy()"><i class="fa fa-copy-o"></i>复制授权地址</a>
 	</div>
 
 	<!-- 内容区域 -->
@@ -121,7 +122,7 @@
 		</div>
 	</div>
 	
-	<div id="roleDialog"></div>
+	<div id="productDialog"></div>
 </div>
 
 <script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.min.js"></script>
@@ -143,7 +144,7 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "del", "edit", "copy"]);
+						enableButtons(["add", "del", "edit", "setProductUrlExpires", "copy"]);
 					} else {
 						enableButtons(["add"]);
 					}
@@ -175,10 +176,11 @@
 				{field : "productAddPoints", title : "获取积分", width : 100, halign : 'right'},
 				{field : "productMinusPoints", title : "扣除积分", width : 100, halign : 'right'},
 				{field : "productCopyright", title : "版权方", width : 100, halign : 'center'},
-				{field : "productOperator", title : "经手人", width : 100, halign : 'center'}
+				{field : "productOperator", title : "经手人", width : 100, halign : 'center'},
+				{field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit", "copy"]);
+				enableButtons(["add", "del", "edit", "setProductUrlExpires", "copy"]);
 				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
@@ -334,6 +336,59 @@
 			document.execCommand('copy');
 		}
 		document.body.removeChild(input);
+		$.messager.show({
+			title: "温馨提示",
+			msg: "操作成功",
+			timeout: 2500,
+			showType: "slide"
+		});
+	}
+
+	// 设置链接有效时间
+	function setProductUrlExpires() {
+		$("#productDialog").dialog({
+			title: "设置链接有效时间",
+			width: 400,
+			height: 375,
+			closed: false,
+			cache: false,
+			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/setProductUrlExpires" style="width:100%;height:100%;"></iframe>',
+			modal: true,
+			onOpen : function() {
+				$("#productframe")[0].contentWindow.actions = {
+					confirm : function(expiresTime) {
+						let row = $("#listGrid").datagrid("getSelected");
+						row.productUrlExpires = expiresTime;
+						$.ajax({
+							type : "POST",
+							url : "${ctx}/product/save",
+							data : row
+						}).done(function(res) {
+							$.messager.progress("close");
+							if (res.resultCode === 0) {
+								query();
+								$.messager.show({
+									title: "温馨提示",
+									msg: "操作成功",
+									timeout: 2500,
+									showType: "slide"
+								});
+							} else {
+								$.messager.alert("温馨提示", res.resultMsg, "error");
+							}
+						}).fail(function(jqXHR, textStatus, errorThrown) {
+							$.messager.progress("close");
+							$.messager.alert("温馨提示", "保存出错！", "error");
+						});
+						$("#productDialog").dialog("close");
+					},
+					cancel : function() {
+						$("#productDialog").dialog("close");
+					}
+				};
+			}
+		});
+		$("#productDialog").css("overflow", "hidden");
 	}
 
 	function _setFormEditable(editable) {

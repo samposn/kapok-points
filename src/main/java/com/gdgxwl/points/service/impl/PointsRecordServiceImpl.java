@@ -5,12 +5,14 @@ import com.gdgxwl.core.service.impl.BaseServiceImpl;
 import com.gdgxwl.points.domain.PointsRecord;
 import com.gdgxwl.points.repository.PointsRecordDao;
 import com.gdgxwl.points.service.PointsRecordService;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,17 +37,47 @@ public class PointsRecordServiceImpl extends
 
     @Override
     public Map<String, Object> search(Map<String, SearchFilter> conditions, Pageable pageable) {
-        try{
+        try {
             resetResultMap();
             Page<Map<String, Object>> page = pointsRecordDao.search(conditions, pageable);
             resultMap.put(RESULT_ROWS, page.getContent());
             resultMap.put(RESULT_TOTAL, page.getTotalElements());
             resultMap.put(RESULT_MSG, "查询成功！");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             resultMap.put(RESULT_CODE, -1);
             resultMap.put(RESULT_MSG, "查询出错");
         }
         return resultMap;
+    }
+
+    @Override
+    public Integer totalPoints(Map<String, SearchFilter> conditions) {
+        int totalAddPoints = 0;
+        int totalMinusPoints = 0;
+        try {
+            List<Map<String, Object>> list = pointsRecordDao.totalPoints(conditions);
+            totalAddPoints = list.stream().mapToInt(item -> {
+                if (item.get("product_add_points") == null) {
+                    return 0;
+                } else if (!NumberUtils.isDigits(item.get("product_add_points").toString())) {
+                    return 0;
+                } else {
+                    return Integer.parseInt(item.get("product_add_points").toString());
+                }
+            }).sum();
+            totalMinusPoints = list.stream().mapToInt(item -> {
+                if (item.get("product_minus_points") == null) {
+                    return 0;
+                } else if (!NumberUtils.isDigits(item.get("product_minus_points").toString())) {
+                    return 0;
+                } else {
+                    return Integer.parseInt(item.get("product_minus_points").toString());
+                }
+            }).sum();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (totalAddPoints - totalMinusPoints);
     }
 }

@@ -22,97 +22,110 @@
 </head>
 
 <body>
+<%-- 获取当前系统时间并赋值给nowDate  --%>
+<c:set var="now" value="<%=System.currentTimeMillis()%>"></c:set>
 <div class="container">
     <c:choose>
         <c:when test="${resultCode == 0}">
-            <div class="row" style="margin-top: 60px;">
-                <div class="col-xs-12 col-md-6 col-md-offset-3">
-                    <h3 class="text-center text-primary">授权登记</h3>
-                    <br>
-                </div>
-                <div class="col-xs-12 col-md-6 col-md-offset-3">
-                    <form id="recordForm" class="form-horizontal">
-                        <input type="hidden" id="productId"  name="productId" value="${row.productId}"/>
-                        <div class="form-group">
-                            <label for="recordPlatform" class="col-sm-3 control-label">平台：</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control required" id="recordPlatform" name="recordPlatform" placeholder="平台">
-                            </div>
+            <c:choose>
+                <c:when test="${now-row.productUrlExpires.getTime() > 0}">
+                    <div class="row" style="margin-top: 120px;">
+                        <div class="col-xs-12 col-md-6 col-md-offset-3">
+                            <div class="alert alert-danger text-center" role="alert">链接已经过期...</div>
                         </div>
-                        <div class="form-group">
-                            <label for="recordPenname" class="col-sm-3 control-label">笔名：</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control required" id="recordPenname" name="recordPenname" placeholder="笔名">
-                            </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="row" style="margin-top: 60px;">
+                        <div class="col-xs-12 col-md-6 col-md-offset-3">
+                            <h3 class="text-center text-primary">授权登记</h3>
+                            <br>
                         </div>
-                        <div class="form-group">
-                            <label for="recordUid" class="col-sm-3 control-label">UID：</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control required" id="recordUid" name="recordUid" placeholder="UID">
-                            </div>
+                        <div class="col-xs-12 col-md-6 col-md-offset-3">
+                            <form id="recordForm" class="form-horizontal">
+                                <input type="hidden" id="productId"  name="productId" value="${row.productId}"/>
+                                <div class="form-group">
+                                    <label for="recordPlatform" class="col-sm-3 control-label">平台：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control required" id="recordPlatform" name="recordPlatform" placeholder="平台">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recordPenname" class="col-sm-3 control-label">笔名：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control required" id="recordPenname" name="recordPenname" placeholder="笔名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recordUid" class="col-sm-3 control-label">UID：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control required" id="recordUid" name="recordUid" placeholder="UID">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recordQq" class="col-sm-3 control-label">QQ：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control required" id="recordQq" name="recordQq" placeholder="QQ">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productName" class="col-sm-3 control-label">商品：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="${row.productName}" class="form-control" id="productName" placeholder="商品" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productPrice" class="col-sm-3 control-label">价格：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="${row.productPrice}" class="form-control" id="productPrice" placeholder="价格" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productAddPoints" class="col-sm-3 control-label">获取积分：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="${row.productAddPoints}" class="form-control" id="productAddPoints" placeholder="获取积分" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productMinusPoints" class="col-sm-3 control-label">扣除积分：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="${row.productMinusPoints}" class="form-control" id="productMinusPoints" placeholder="扣除积分" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCopyright" class="col-sm-3 control-label">版权方：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="${row.productCopyright}" class="form-control" id="productCopyright" placeholder="版权方" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productOperator" class="col-sm-3 control-label">经手人：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="${row.productOperator}" class="form-control" id="productOperator" placeholder="经手人" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recordPaymentType" class="col-sm-3 control-label">支付方式：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="recordPaymentType" name="recordPaymentType" placeholder="支付方式">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recordTaobaoNum" class="col-sm-3 control-label">淘宝订单号：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="recordTaobaoNum" name="recordTaobaoNum" placeholder="淘宝订单号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <button type="button" class="btn btn-primary" onclick="tijiao();">提交</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="recordQq" class="col-sm-3 control-label">QQ：</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control required" id="recordQq" name="recordQq" placeholder="QQ">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productName" class="col-sm-3 control-label">商品：</label>
-                            <div class="col-sm-9">
-                                <input type="text" value="${row.productName}" class="form-control" id="productName" placeholder="商品" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productPrice" class="col-sm-3 control-label">价格：</label>
-                            <div class="col-sm-9">
-                                <input type="text" value="${row.productPrice}" class="form-control" id="productPrice" placeholder="价格" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productAddPoints" class="col-sm-3 control-label">获取积分：</label>
-                            <div class="col-sm-9">
-                                <input type="text" value="${row.productAddPoints}" class="form-control" id="productAddPoints" placeholder="获取积分" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productMinusPoints" class="col-sm-3 control-label">扣除积分：</label>
-                            <div class="col-sm-9">
-                                <input type="text" value="${row.productMinusPoints}" class="form-control" id="productMinusPoints" placeholder="扣除积分" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productCopyright" class="col-sm-3 control-label">版权方：</label>
-                            <div class="col-sm-9">
-                                <input type="text" value="${row.productCopyright}" class="form-control" id="productCopyright" placeholder="版权方" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productOperator" class="col-sm-3 control-label">经手人：</label>
-                            <div class="col-sm-9">
-                                <input type="text" value="${row.productOperator}" class="form-control" id="productOperator" placeholder="经手人" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="recordPaymentType" class="col-sm-3 control-label">支付方式：</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="recordPaymentType" name="recordPaymentType" placeholder="支付方式">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="recordTaobaoNum" class="col-sm-3 control-label">淘宝订单号：</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="recordTaobaoNum" name="recordTaobaoNum" placeholder="淘宝订单号">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-9">
-                                <button type="button" class="btn btn-primary" onclick="tijiao();">提交</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </c:when>
         <c:otherwise>
             <div class="row" style="margin-top: 120px;">

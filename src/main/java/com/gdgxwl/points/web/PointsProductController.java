@@ -1,5 +1,6 @@
 package com.gdgxwl.points.web;
 
+import com.gdgxwl.base.common.ConfigUtil;
 import com.gdgxwl.base.domain.GxwlSysUser;
 import com.gdgxwl.core.common.web.SearchUtil;
 import com.gdgxwl.points.domain.PointsProduct;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,6 +67,12 @@ public class PointsProductController {
     @ResponseBody
     public Map<String, Object> save(PointsProduct pointsProduct) {
         return pointsProductService.doSave(pointsProduct);
+    }
+
+    @RequestMapping(value = "/setProductUrlExpires")
+    public String selectRole(Model model) {
+        model.addAttribute("productUrlExpires", ConfigUtil.getConfigValue("productUrlExpires"));
+        return "points/product/set-product-url-expires";
     }
 
     private Map<String, Object> doSearch(HttpServletRequest req) {

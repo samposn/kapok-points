@@ -18,4 +18,6 @@ public interface PointsRecordService extends BaseService<PointsRecordDao, Points
 
     Map<String, Object> search(Map<String, SearchFilter> conditions, Pageable pageable);
 
+    Integer totalPoints(Map<String, SearchFilter> conditions);
+
 }

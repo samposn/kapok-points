@@ -5,6 +5,7 @@ import com.gdgxwl.core.repository.BaseDaoPlus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,7 @@ public interface PointsRecordDaoPlus extends BaseDaoPlus {
 
     Page<Map<String, Object>> search(
         Map<String, SearchFilter> conditions, Pageable pageable);
+
+    List<Map<String, Object>> totalPoints(Map<String, SearchFilter> conditions);
 
 }

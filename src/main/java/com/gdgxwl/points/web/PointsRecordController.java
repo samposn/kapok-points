@@ -52,8 +52,12 @@ public class PointsRecordController {
         return "points/record/record-query";
     }
 
-    @RequestMapping(value = "/query/show")
-    public String queryShow() {
+    @RequestMapping(value = "/query/show/{qq}/{uid}")
+    public String queryShow(Model model,
+                            @PathVariable String qq,
+                            @PathVariable String uid) {
+        model.addAttribute("qq", qq);
+        model.addAttribute("uid", uid);
         return "points/record/record-query-show";
     }
 
@@ -61,7 +65,9 @@ public class PointsRecordController {
     @RequestMapping(value = "/search")
     @ResponseBody
     public Map<String, Object> search(HttpServletRequest req) {
-        return pointsRecordService.search(SearchUtil.getSearchFilters(req),SearchUtil.getPageable(req));
+        Map<String, Object> stringObjectMap = pointsRecordService.search(SearchUtil.getSearchFilters(req),SearchUtil.getPageable(req));
+        stringObjectMap.put("totalPoints", pointsRecordService.totalPoints(SearchUtil.getSearchFilters(req)));
+        return stringObjectMap;
     }
 
     // 保存记录

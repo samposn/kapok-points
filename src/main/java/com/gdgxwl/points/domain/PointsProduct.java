@@ -1,9 +1,14 @@
 package com.gdgxwl.points.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gdgxwl.base.domain.BaseEntity;
+import com.gdgxwl.core.common.json.JsonDateTimeSerializer;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * PointsProduct
@@ -59,6 +64,15 @@ public class PointsProduct extends BaseEntity {
     @Column(name = "PRODUCT_OPERATOR", length = 50)
     private String productOperator;
 
+    /**
+     * 链接有效时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @Column(name = "PRODUCT_URL_EXPIRES")
+    private Date productUrlExpires;
+
     public Integer getProductId() {
         return productId;
     }
@@ -113,5 +127,13 @@ public class PointsProduct extends BaseEntity {
 
     public void setProductOperator(String productOperator) {
         this.productOperator = productOperator;
+    }
+
+    public Date getProductUrlExpires() {
+        return productUrlExpires;
+    }
+
+    public void setProductUrlExpires(Date productUrlExpires) {
+        this.productUrlExpires = productUrlExpires;
     }
 }
