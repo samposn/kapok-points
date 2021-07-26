@@ -52,6 +52,21 @@ public class PointsRecordServiceImpl extends
     }
 
     @Override
+    public Map<String, Object> getOne(Integer id) {
+        try {
+            resetResultMap();
+            Map<String, Object> row = pointsRecordDao.getOne(id);
+            resultMap.put(RESULT_ROW, row);
+            resultMap.put(RESULT_MSG, "查询成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultMap.put(RESULT_CODE, -1);
+            resultMap.put(RESULT_MSG, "查询出错");
+        }
+        return resultMap;
+    }
+
+    @Override
     public Integer totalPoints(Map<String, SearchFilter> conditions) {
         int totalAddPoints = 0;
         int totalMinusPoints = 0;

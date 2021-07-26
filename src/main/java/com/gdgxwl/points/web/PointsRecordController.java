@@ -1,10 +1,10 @@
 package com.gdgxwl.points.web;
 
 import com.gdgxwl.core.common.web.SearchUtil;
-import com.gdgxwl.points.domain.PointsProduct;
 import com.gdgxwl.points.domain.PointsRecord;
 import com.gdgxwl.points.service.PointsProductService;
 import com.gdgxwl.points.service.PointsRecordService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +68,22 @@ public class PointsRecordController {
         Map<String, Object> stringObjectMap = pointsRecordService.search(SearchUtil.getSearchFilters(req),SearchUtil.getPageable(req));
         stringObjectMap.put("totalPoints", pointsRecordService.totalPoints(SearchUtil.getSearchFilters(req)));
         return stringObjectMap;
+    }
+
+    // 加载记录
+    @RequiresPermissions("RECORD_EDIT")
+    @RequestMapping(value = "/get/{id}")
+    @ResponseBody
+    public Map<String, Object> get(@PathVariable Integer id) {
+        return pointsRecordService.getOne(id);
+    }
+
+    // 删除记录
+    @RequiresPermissions("RECORD_DEL")
+    @RequestMapping(value = "/del/{id}")
+    @ResponseBody
+    public Map<String, Object> del(@PathVariable Integer id) {
+        return pointsRecordService.doDelete(id);
     }
 
     // 保存记录

@@ -19,6 +19,8 @@ public interface PointsRecordDaoPlus extends BaseDaoPlus {
     Page<Map<String, Object>> search(
         Map<String, SearchFilter> conditions, Pageable pageable);
 
+    Map<String, Object> getOne(Integer id);
+
     List<Map<String, Object>> totalPoints(Map<String, SearchFilter> conditions);
 
 }
