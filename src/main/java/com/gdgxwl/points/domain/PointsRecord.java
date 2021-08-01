@@ -1,9 +1,13 @@
 package com.gdgxwl.points.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gdgxwl.base.domain.BaseEntity;
+import com.gdgxwl.core.common.json.JsonDateTimeSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * PointsProduct
@@ -36,25 +40,49 @@ public class PointsRecord extends BaseEntity {
     private String recordPenname;
 
     /**
-     *
+     * UID
      */
     @Column(name = "RECORD_UID", length = 50)
     private String recordUid;
 
     /**
-     * 扣除积分
+     * QQ
      */
     @Column(name = "RECORD_QQ")
     private Integer recordQq;
 
     /**
-     * 版权方
+     * 商品价格
+     */
+    @Column(name = "PRODUCT_PRICE")
+    private BigDecimal productPrice;
+
+    /**
+     * 销售价格
+     */
+    @Column(name = "RECORD_PRICE")
+    private BigDecimal recordPrice;
+
+    /**
+     * 获取积分
+     */
+    @Column(name = "RECORD_ADD_POINTS")
+    private Integer recordAddPoints;
+
+    /**
+     * 扣除积分
+     */
+    @Column(name = "RECORD_MINUS_POINTS")
+    private Integer recordMinusPoints;
+
+    /**
+     * 支付方式
      */
     @Column(name = "RECORD_PAYMENT_TYPE", length = 20)
     private String recordPaymentType;
 
     /**
-     * 经办人
+     * 淘宝订单号
      */
     @Column(name = "RECORD_TAOBAO_NUM", length = 50)
     private String recordTaobaoNum;
@@ -64,6 +92,21 @@ public class PointsRecord extends BaseEntity {
      */
     @Column(name = "PRODUCT_ID")
     private Long productId;
+
+    /**
+     * 经办人
+     */
+    @Column(name = "RECORD_OPERATOR", length = 50)
+    private String recordOperator;
+
+    /**
+     * 链接有效时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @Column(name = "RECORD_URL_EXPIRES")
+    private Date recordUrlExpires;
 
     public Integer getRecordId() {
         return recordId;
@@ -105,6 +148,38 @@ public class PointsRecord extends BaseEntity {
         this.recordQq = recordQq;
     }
 
+    public BigDecimal getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public BigDecimal getRecordPrice() {
+        return recordPrice;
+    }
+
+    public void setRecordPrice(BigDecimal recordPrice) {
+        this.recordPrice = recordPrice;
+    }
+
+    public Integer getRecordAddPoints() {
+        return recordAddPoints;
+    }
+
+    public void setRecordAddPoints(Integer recordAddPoints) {
+        this.recordAddPoints = recordAddPoints;
+    }
+
+    public Integer getRecordMinusPoints() {
+        return recordMinusPoints;
+    }
+
+    public void setRecordMinusPoints(Integer recordMinusPoints) {
+        this.recordMinusPoints = recordMinusPoints;
+    }
+
     public String getRecordPaymentType() {
         return recordPaymentType;
     }
@@ -129,4 +204,19 @@ public class PointsRecord extends BaseEntity {
         this.productId = productId;
     }
 
+    public String getRecordOperator() {
+        return recordOperator;
+    }
+
+    public void setRecordOperator(String recordOperator) {
+        this.recordOperator = recordOperator;
+    }
+
+    public Date getRecordUrlExpires() {
+        return recordUrlExpires;
+    }
+
+    public void setRecordUrlExpires(Date recordUrlExpires) {
+        this.recordUrlExpires = recordUrlExpires;
+    }
 }

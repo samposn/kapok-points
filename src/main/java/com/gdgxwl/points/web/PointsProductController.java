@@ -69,10 +69,10 @@ public class PointsProductController {
         return pointsProductService.doSave(pointsProduct);
     }
 
-    @RequestMapping(value = "/setProductUrlExpires")
+    @RequestMapping(value = "/createRecord")
     public String selectRole(Model model) {
         model.addAttribute("productUrlExpires", ConfigUtil.getConfigValue("productUrlExpires"));
-        return "points/product/set-product-url-expires";
+        return "points/product/create-record";
     }
 
     private Map<String, Object> doSearch(HttpServletRequest req) {

@@ -33,7 +33,7 @@
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 		</shiro:hasPermission>
 		<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
-		<a id="setProductUrlExpires" class="easyui-linkbutton toolbar g-button" onclick="setProductUrlExpires()"><i class="fa fa-cog"></i>设置链接有效时间</a>
+		<a id="createRecord" class="easyui-linkbutton toolbar g-button" onclick="createRecord()"><i class="fa fa-cog"></i>创建授权记录</a>
 		<a id="copy" class="easyui-linkbutton toolbar g-button" onclick="copy()"><i class="fa fa-copy-o"></i>复制授权地址</a>
 	</div>
 
@@ -107,14 +107,16 @@
 								<input id="productCopyright" name="productCopyright" class="easyui-validatebox form-control"
 									   data-options="required: true">
 							</td>
-							<td class="form-cell-1">
-				            	<label class="form-label" title="经手人">经手人</label>
-								<input id="productOperator" name="productOperator" class="easyui-validatebox form-control"
-									   data-options="required: true">
-							</td>
+<%--							<td class="form-cell-1">--%>
+<%--				            	<label class="form-label" title="经手人">经手人</label>--%>
+<%--								<input id="productOperator" name="productOperator" class="easyui-validatebox form-control"--%>
+<%--									   data-options="required: true">--%>
+<%--							</td>--%>
 							<td class="form-cell-1">
 								<label class="form-label" title="状态">状态</label>
 								<input id="productStatus" name="productStatus" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1">
 							</td>
 							<td class="form-cell-1">
 							</td>
@@ -147,7 +149,7 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "del", "edit", "setProductUrlExpires", "copy"]);
+						enableButtons(["add", "del", "edit", "createRecord", "copy"]);
 					} else {
 						enableButtons(["add"]);
 					}
@@ -179,12 +181,12 @@
 				{field : "productAddPoints", title : "获取积分", width : 100, halign : 'right'},
 				{field : "productMinusPoints", title : "扣除积分", width : 100, halign : 'right'},
 				{field : "productCopyright", title : "版权方", width : 100, halign : 'center'},
-				{field : "productOperator", title : "经手人", width : 100, halign : 'center'},
-				{field : "productStatus", title : "状态", width : 100, halign : 'center'},
-				{field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
+				// {field : "productOperator", title : "经手人", width : 100, halign : 'center'},
+				{field : "productStatus", title : "状态", width : 100, halign : 'center'}
+				// {field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit", "setProductUrlExpires", "copy"]);
+				enableButtons(["add", "del", "edit", "createRecord", "copy"]);
 				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
@@ -349,16 +351,17 @@
 	}
 
 	// 设置链接有效时间
-	function setProductUrlExpires() {
+	function createRecord() {
 		$("#productDialog").dialog({
 			title: "设置链接有效时间",
-			width: 400,
-			height: 375,
+			width: 500,
+			height: 380,
 			closed: false,
 			cache: false,
-			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/setProductUrlExpires" style="width:100%;height:100%;"></iframe>',
+			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/createRecord" style="width:100%;height:100%;"></iframe>',
 			modal: true,
 			onOpen : function() {
+				$("#productframe")[0].contentWindow.selectRow  = $("#listGrid").datagrid("getSelected");
 				$("#productframe")[0].contentWindow.actions = {
 					confirm : function(expiresTime) {
 						let row = $("#listGrid").datagrid("getSelected");
