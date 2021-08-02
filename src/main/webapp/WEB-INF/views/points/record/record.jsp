@@ -17,13 +17,22 @@
 	<link rel="stylesheet" href="${ctx}/resources/libs/${jqueryEasyui}/themes/icon.css">
 	<link rel="stylesheet" href="${ctx}/resources/css/gxwlui.css">
 	<link rel="stylesheet" href="${ctx}/resources/css/page.css">
+	<style type="text/css">
+		.copy-input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 0;
+			z-index: -999;
+		}
+	</style>
 </head>
 
 <body>
 <div class="g-layout">
 	<!-- 按钮区域 -->
 	<div class="g-toolbar">
-<%--        <a id="add" class="easyui-linkbutton toolbar g-button" onclick="add()"><i class="fa fa-plus"></i>新增</a>--%>
+        <%-- <a id="add" class="easyui-linkbutton toolbar g-button" onclick="add()"><i class="fa fa-plus"></i>新增</a>--%>
 		<shiro:hasPermission name="RECORD_DEL">
 			<a id="del" class="easyui-linkbutton toolbar g-button" onclick="del()"><i class="fa fa-trash-o"></i>删除</a>
 		</shiro:hasPermission>
@@ -31,6 +40,7 @@
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 			<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
 		</shiro:hasPermission>
+		<a id="copyLink" class="easyui-linkbutton toolbar g-button" onclick="copyLink()"><i class="fa fa-copy-o"></i>复制授权链接</a>
 	</div>
 
 	<!-- 内容区域 -->
@@ -89,53 +99,56 @@
 					<tbody>
 						<tr>
 							<td class="form-cell-1">
-				            	<label class="form-label" title="平台">平台</label>
-								<input id="recordPlatform" name="recordPlatform" class="easyui-validatebox form-control"
-									   data-options="required: true">
-							</td>
-							<td class="form-cell-1">
-				            	<label class="form-label" title="笔名">笔名</label>
-								<input id="recordPenname" name="recordPenname" class="easyui-validatebox form-control"
-									   data-options="required: true">
-							</td>
-							<td class="form-cell-1">
-				            	<label class="form-label" title="UID">UID</label>
-								<input id="recordUid" name="recordUid" class="easyui-validatebox form-control"
-									   data-options="required: true">
-							</td>
-							<td class="form-cell-1">
-				            	<label class="form-label" title="QQ">QQ</label>
-								<input id="recordQq" name="recordQq" class="easyui-validatebox form-control"
-									   data-options="required: true">
-							</td>
-						</tr>
-						<tr>
-							<td class="form-cell-1">
-				            	<label class="form-label" title="版权方">商品</label>
+						    	<label class="form-label" title="版权方">商品名称</label>
 								<input id="product_name" name="product_name" class="easyui-validatebox form-control" readonly>
 							</td>
-							<td class="form-cell-1">
-				            	<label class="form-label" title="经手人">价格</label>
-								<input id="product_price" name="product_price" class="easyui-validatebox form-control" readonly>
-							</td>
-							<td class="form-cell-1">
-								<label class="form-label" title="状态">获取积分</label>
-								<input id="product_add_points" name="product_add_points" class="easyui-validatebox form-control" readonly>
-							</td>
-							<td class="form-cell-1">
-								<label class="form-label" title="状态">扣除积分</label>
-								<input id="product_minus_points" name="product_minus_points" class="easyui-validatebox form-control" readonly>
-							</td>
-						</tr>
-						<tr>
 							<td class="form-cell-1">
 								<label class="form-label" title="版权方">版权方</label>
 								<input id="product_copyright" name="product_copyright" class="easyui-validatebox form-control" readonly>
 							</td>
 							<td class="form-cell-1">
 								<label class="form-label" title="经手人">经手人</label>
-								<input id="product_operator" name="product_operator" class="easyui-validatebox form-control" readonly>
+								<input id="recordOperator" name="recordOperator" class="easyui-validatebox form-control">
 							</td>
+							<td class="form-cell-1"></td>
+						</tr>
+						<tr>
+							<td class="form-cell-1">
+						    	<label class="form-label" title="平台">平台</label>
+								<input id="recordPlatform" name="recordPlatform" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1">
+						    	<label class="form-label" title="笔名">笔名</label>
+								<input id="recordPenname" name="recordPenname" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1">
+						    	<label class="form-label" title="UID">UID</label>
+								<input id="recordUid" name="recordUid" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1">
+						    	<label class="form-label" title="QQ">QQ</label>
+								<input id="recordQq" name="recordQq" class="easyui-validatebox form-control">
+							</td>
+						</tr>
+						<tr>
+							<td class="form-cell-1">
+								<label class="form-label" title="商品价格">商品价格</label>
+								<input id="productPrice" name="productPrice" class="easyui-validatebox form-control" readonly>
+							</td>
+							<td class="form-cell-1">
+								<label class="form-label" title="销售价格">销售价格</label>
+								<input id="recordPrice" name="recordPrice" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1">
+								<label class="form-label" title="状态">获取积分</label>
+								<input id="recordAddPoints" name="recordAddPoints" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1">
+								<label class="form-label" title="状态">扣除积分</label>
+								<input id="recordMinusPoints" name="recordMinusPoints" class="easyui-validatebox form-control">
+							</td>
+						</tr>
+						<tr>
 							<td class="form-cell-1">
 								<label class="form-label" title="支付方式">支付方式</label>
 								<input id="recordPaymentType" name="recordPaymentType" class="easyui-validatebox form-control">
@@ -144,12 +157,20 @@
 								<label class="form-label" title="淘宝订单号">淘宝订单号</label>
 								<input id="recordTaobaoNum" name="recordTaobaoNum" class="easyui-validatebox form-control">
 							</td>
+							<td class="form-cell-1">
+								<label class="form-label" title="链接有效期">链接有效期</label>
+								<input id="recordUrlExpires" name="recordUrlExpires" class="easyui-datetimebox form-control"
+									style="width:${comboboxWidth};height:${comboboxHeight}px">
+							</td>
+							<td class="form-cell-1"></td>
 						</tr>
 					</tbody>
 				</table>
 			</form>
 		</div>
 	</div>
+	
+	<input id="copyLinkInput" class="copy-input"/>
 </div>
 
 <script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.min.js"></script>
@@ -171,7 +192,7 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "del", "edit", "copy"]);
+						enableButtons(["add", "del", "edit", "copyLink"]);
 					} else {
 						enableButtons(["add"]);
 					}
@@ -193,27 +214,30 @@
 			singleSelect : true,
 			autoRowHeight : false,
 			border : false,
-			pageSize : defaultPageSize,
+			pageSize : 50,
 			pageList : defaultPageList,
 			pagination : true,
 			url : "${ctx}/record/search",
  			columns : [[
+				{field : "recordId", title : "ID", width : 50, halign : 'center'},
 				{field : "record_platform", title : "平台", width : 100, halign : 'center'},
 				{field : "record_penname", title : "笔名", width : 100, halign : 'center'},
                 {field : "record_uid", title : " UID", width : 100, halign : 'center'},
                 {field : "record_qq", title : "QQ", width : 100, halign : 'center'},
-				{field : "product_name", title : "商品", width : 100, halign : 'center'},
-				{field : "product_price", title : "价格", width : 100, halign : 'center'},
-                {field : "product_add_points", title : "获取积分", width : 100, halign : 'center'},
-                {field : "product_minus_points", title : " 扣除积分", width : 100, halign : 'center'},
+				{field : "product_name", title : "商品名称", width : 250, halign : 'center'},
+				{field : "product_price", title : "商品价格", width : 100, halign : 'center'},
+				{field : "record_price", title : "销售价格", width : 100, halign : 'center'},
+                {field : "record_add_points", title : "获取积分", width : 100, halign : 'center'},
+                {field : "record_minus_points", title : " 扣除积分", width : 100, halign : 'center'},
                 {field : "product_copyright", title : " 版权方", width : 100, halign : 'center'},
-                {field : "product_operator", title : " 经手人", width : 100, halign : 'center'},
+                {field : "record_operator", title : " 经手人", width : 100, halign : 'center'},
                 {field : "record_payment_type", title : " 支付方式", width : 100, halign : 'center'},
-                {field : "record_tabbao_num", title : " 淘宝订单号", width : 100, halign : 'center'},
-				{field : "create_time", title : " 创建时间", width : 150, halign : 'center'}
+                {field : "record_taobao_num", title : " 淘宝订单号", width : 100, halign : 'center'},
+				{field : "record_url_expires", title : "授权链接有效期", width : 130, halign : 'center'},
+				{field : "create_time", title : " 创建时间", width : 130, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit", "copy"]);
+				enableButtons(["add", "del", "edit", "copyLink"]);
 				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
@@ -357,6 +381,17 @@
 				$.messager.alert("温馨提示", "保存出错！", "error");
 			});
 		}
+	}
+	
+	// 复制授权链接
+	function copyLink() {
+		$.messager.alert("温馨提示", "授权地址复制成功，可以发送啦！", "info", function() {
+			let row = $("#listGrid").datagrid("getSelected");
+			let copyLinkInput = document.getElementById("copyLinkInput");
+			copyLinkInput.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + row.recordId);
+			copyLinkInput.select();
+			document.execCommand("Copy");
+		});
 	}
 
 	function _setFormEditable(editable) {

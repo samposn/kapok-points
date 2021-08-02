@@ -28,7 +28,7 @@
     <c:choose>
         <c:when test="${resultCode == 0}">
             <c:choose>
-                <c:when test="${now-row.productUrlExpires.getTime() > 0}">
+                <c:when test="${now-row.exp > 0}">
                     <div class="row" style="margin-top: 120px;">
                         <div class="col-xs-12 col-md-6 col-md-offset-3">
                             <div class="alert alert-danger text-center" role="alert">链接已经过期...</div>
@@ -43,7 +43,11 @@
                         </div>
                         <div class="col-xs-12 col-md-6 col-md-offset-3">
                             <form id="recordForm" class="form-horizontal">
-                                <input type="hidden" id="productId"  name="productId" value="${row.productId}"/>
+								<input id="recordId" name="recordId" type="hidden" value="${row.recordId}">
+								<input id="productId" name="productId" type="hidden" value="${row.productId}">
+								<input id="productPrice" name="productPrice" type="hidden" value="${row.productPrice}">
+								<input id="createrId" name="createrId" type="hidden" value="${row.createrId}">
+								<input id="createTime" name="createTime" type="hidden" value="${row.createTime}">
                                 <div class="form-group">
                                     <label for="recordPlatform" class="col-sm-3 control-label">平台：</label>
                                     <div class="col-sm-9">
@@ -69,39 +73,43 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="productName" class="col-sm-3 control-label">商品：</label>
+                                    <label for="product_name" class="col-sm-3 control-label">商品名称：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.productName}" class="form-control" id="productName" placeholder="商品" readonly>
+                                        <input type="text" value="${row.product_name}" class="form-control" id="product_name" placeholder="商品" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="productPrice" class="col-sm-3 control-label">价格：</label>
+                                    <label for="recordPrice" class="col-sm-3 control-label">价格：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.productPrice}" class="form-control" id="productPrice" placeholder="价格" readonly>
+                                        <input type="text" class="form-control" id="recordPrice" name="recordPrice" placeholder="价格" readonly
+										value="${row.recordPrice}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="productAddPoints" class="col-sm-3 control-label">获取积分：</label>
+                                    <label for="recordAddPoints" class="col-sm-3 control-label">获取积分：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.productAddPoints}" class="form-control" id="productAddPoints" placeholder="获取积分" readonly>
+                                        <input type="text" class="form-control" id="recordAddPoints" name="recordAddPoints" placeholder="获取积分" readonly
+										value="${row.recordAddPoints}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="productMinusPoints" class="col-sm-3 control-label">扣除积分：</label>
+                                    <label for="recordMinusPoints" class="col-sm-3 control-label">扣除积分：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.productMinusPoints}" class="form-control" id="productMinusPoints" placeholder="扣除积分" readonly>
+                                        <input type="text" class="form-control" id="recordMinusPoints" name="recordMinusPoints" placeholder="扣除积分" readonly
+										value="${row.recordMinusPoints}" >
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="productCopyright" class="col-sm-3 control-label">版权方：</label>
+                                    <label for="product_copyright" class="col-sm-3 control-label">版权方：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.productCopyright}" class="form-control" id="productCopyright" placeholder="版权方" readonly>
+                                        <input type="text" value="${row.product_copyright}" class="form-control" id="product_copyright" placeholder="版权方" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="productOperator" class="col-sm-3 control-label">经手人：</label>
+                                    <label for="recordOperator" class="col-sm-3 control-label">经手人：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.productOperator}" class="form-control" id="productOperator" placeholder="经手人" readonly>
+                                        <input type="text" class="form-control" id="recordOperator" name="recordOperator" placeholder="经手人" readonly
+										value="${row.recordOperator}">
                                     </div>
                                 </div>
                                 <div class="form-group">

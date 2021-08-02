@@ -6,6 +6,7 @@ import com.gdgxwl.points.service.PointsProductService;
 import com.gdgxwl.points.service.PointsRecordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -38,12 +41,22 @@ public class PointsRecordController {
     }
 
     @RequestMapping(value = "/add/{productId}")
-    public String add(Model model,  @PathVariable Integer productId) {
-        Map<String, Object> stringObjectMap = pointsProductService.doSelect(productId);
+    public String add(Model model,  @PathVariable Integer productId) throws ParseException {
+        Map<String, Object> stringObjectMap = pointsRecordService.getOne(productId);
         model.addAttribute("resultCode", stringObjectMap.get("resultCode"));
         model.addAttribute("resultMsg", stringObjectMap.get("resultMsg"));
         model.addAttribute("errorCode", stringObjectMap.get("errorCode"));
-        model.addAttribute("row", stringObjectMap.get("row"));
+
+        Map<String, Object> row = (Map<String, Object>) stringObjectMap.get("row");
+        Object recordUrlExpires = row.get("recordUrlExpires");
+        if (recordUrlExpires == null) {
+            row.put("exp", 0);
+        } else {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            row.put("exp", simpleDateFormat.parse(recordUrlExpires.toString()).getTime());
+        }
+
+        model.addAttribute("row", row);
         return "points/record/record-add";
     }
 
@@ -65,7 +78,8 @@ public class PointsRecordController {
     @RequestMapping(value = "/search")
     @ResponseBody
     public Map<String, Object> search(HttpServletRequest req) {
-        Map<String, Object> stringObjectMap = pointsRecordService.search(SearchUtil.getSearchFilters(req),SearchUtil.getPageable(req));
+        Map<String, Object> stringObjectMap = pointsRecordService.search(SearchUtil.getSearchFilters(req),
+            SearchUtil.getPageableWithOrderBy(req, "r.LAST_UPDATE_TIME_desc"));
         stringObjectMap.put("totalPoints", pointsRecordService.totalPoints(SearchUtil.getSearchFilters(req)));
         return stringObjectMap;
     }

@@ -17,6 +17,15 @@
 	<link rel="stylesheet" href="${ctx}/resources/libs/${jqueryEasyui}/themes/icon.css">
 	<link rel="stylesheet" href="${ctx}/resources/css/gxwlui.css">
 	<link rel="stylesheet" href="${ctx}/resources/css/page.css">
+	<style type="text/css">
+		.copy-input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 0;
+			z-index: -999;
+		}
+	</style>
 </head>
 
 <body>
@@ -34,7 +43,6 @@
 		</shiro:hasPermission>
 		<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
 		<a id="createRecord" class="easyui-linkbutton toolbar g-button" onclick="createRecord()"><i class="fa fa-cog"></i>创建授权记录</a>
-		<a id="copy" class="easyui-linkbutton toolbar g-button" onclick="copy()"><i class="fa fa-copy-o"></i>复制授权地址</a>
 	</div>
 
 	<!-- 内容区域 -->
@@ -128,6 +136,7 @@
 	</div>
 	
 	<div id="productDialog"></div>
+	<input id="copyLinkInput" class="copy-input"/>
 </div>
 
 <script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.min.js"></script>
@@ -149,7 +158,7 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "del", "edit", "createRecord", "copy"]);
+						enableButtons(["add", "del", "edit", "createRecord"]);
 					} else {
 						enableButtons(["add"]);
 					}
@@ -171,12 +180,12 @@
 			singleSelect : true,
 			autoRowHeight : false,
 			border : false,
-			pageSize : defaultPageSize,
+			pageSize : 50,
 			pageList : defaultPageList,
 			pagination : true,
 			url : "${ctx}/product/search",
  			columns : [[
-				{field : "productName", title : "商品名称", width : 100, halign : 'center'},
+				{field : "productName", title : "商品名称", width : 250, halign : 'center'},
 				{field : "productPrice", title : "商品价格", width : 100, halign : 'right'},
 				{field : "productAddPoints", title : "获取积分", width : 100, halign : 'right'},
 				{field : "productMinusPoints", title : "扣除积分", width : 100, halign : 'right'},
@@ -186,7 +195,7 @@
 				// {field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit", "createRecord", "copy"]);
+				enableButtons(["add", "del", "edit", "createRecord"]);
 				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
@@ -331,29 +340,21 @@
 			});
 		}
 	}
-
-	function copy() {
-		let row = $("#listGrid").datagrid("getSelected");
-		let input = document.createElement('input');
-		document.body.appendChild(input);
-		input.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + row.productId);
-		input.select();
-		if (document.execCommand('copy')) {
-			document.execCommand('copy');
-		}
-		document.body.removeChild(input);
-		$.messager.show({
-			title: "温馨提示",
-			msg: "操作成功",
-			timeout: 2500,
-			showType: "slide"
+	
+	// 复制授权链接
+	function copyLink(recordId) {
+		$.messager.alert("温馨提示", "授权地址创建成功，可以发送啦！", "info", function() {
+			var copyLinkInput = document.getElementById("copyLinkInput");
+			copyLinkInput.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + recordId);
+			copyLinkInput.select();
+			document.execCommand("Copy");
 		});
 	}
 
-	// 设置链接有效时间
+	// 创建授权记录
 	function createRecord() {
 		$("#productDialog").dialog({
-			title: "设置链接有效时间",
+			title: "创建授权记录",
 			width: 500,
 			height: 380,
 			closed: false,
@@ -363,30 +364,22 @@
 			onOpen : function() {
 				$("#productframe")[0].contentWindow.selectRow  = $("#listGrid").datagrid("getSelected");
 				$("#productframe")[0].contentWindow.actions = {
-					confirm : function(expiresTime) {
-						let row = $("#listGrid").datagrid("getSelected");
-						row.productUrlExpires = expiresTime;
-						$.ajax({
-							type : "POST",
-							url : "${ctx}/product/save",
-							data : row
-						}).done(function(res) {
-							$.messager.progress("close");
-							if (res.resultCode === 0) {
-								query();
-								$.messager.show({
-									title: "温馨提示",
-									msg: "操作成功",
-									timeout: 2500,
-									showType: "slide"
-								});
-							} else {
-								$.messager.alert("温馨提示", res.resultMsg, "error");
-							}
-						}).fail(function(jqXHR, textStatus, errorThrown) {
-							$.messager.progress("close");
-							$.messager.alert("温馨提示", "保存出错！", "error");
-						});
+					confirm : function(data) {
+                        $.ajax({
+                            type : "POST",
+                            url : "${ctx}/record/save",
+                            data : data
+                        }).done(function(res) {
+                            $.messager.progress("close");
+                            if (res.resultCode === 0) {
+                                copyLink(res.row.recordId);
+                            } else {
+                                $.messager.alert("温馨提示", res.resultMsg, "error");
+                            }
+                        }).fail(function() {
+                            $.messager.progress("close");
+                            $.messager.alert("温馨提示", "保存出错！", "error");
+                        });
 						$("#productDialog").dialog("close");
 					},
 					cancel : function() {

@@ -73,21 +73,21 @@ public class PointsRecordServiceImpl extends
         try {
             List<Map<String, Object>> list = pointsRecordDao.totalPoints(conditions);
             totalAddPoints = list.stream().mapToInt(item -> {
-                if (item.get("product_add_points") == null) {
+                if (item.get("record_add_points") == null) {
                     return 0;
-                } else if (!NumberUtils.isDigits(item.get("product_add_points").toString())) {
+                } else if (!NumberUtils.isDigits(item.get("record_add_points").toString())) {
                     return 0;
                 } else {
-                    return Integer.parseInt(item.get("product_add_points").toString());
+                    return Integer.parseInt(item.get("record_add_points").toString());
                 }
             }).sum();
             totalMinusPoints = list.stream().mapToInt(item -> {
-                if (item.get("product_minus_points") == null) {
+                if (item.get("record_minus_points") == null) {
                     return 0;
-                } else if (!NumberUtils.isDigits(item.get("product_minus_points").toString())) {
+                } else if (!NumberUtils.isDigits(item.get("record_minus_points").toString())) {
                     return 0;
                 } else {
-                    return Integer.parseInt(item.get("product_minus_points").toString());
+                    return Integer.parseInt(item.get("record_minus_points").toString());
                 }
             }).sum();
         } catch (Exception e) {

@@ -28,6 +28,7 @@
 <div class="content">
 	<div id="list" style="height: 300px;padding-top:40px">
 		<form id="dataForm">
+		    <input id="productId" name="productId" type="hidden">
 			<table class="g-form" style="height:100%" cellpadding="0" cellspacing="0">
 				<tbody>
 					<tr>
@@ -82,7 +83,7 @@
 		</form>
 	</div>
 	<div id="toolbar" class="dialog-button">
-		<a id="confirm" href="javascript:void(0);" class="easyui-linkbutton g-button" onclick="window.actions.confirm($('#expiresTime').datetimebox('getValue'));"><i class="fa fa-check"></i>确定</a>
+		<a id="confirm" href="javascript:void(0);" class="easyui-linkbutton g-button" onclick="saveRecord();"><i class="fa fa-check"></i>确定</a>
 		<a id="cancel" href="javascript:void(0);" class="easyui-linkbutton g-button" onclick="window.actions.cancel();"><i class="fa fa-times"></i>取消</a>
 	</div>
 </div>
@@ -94,8 +95,8 @@
 
 <script type="text/javascript">
 	$(function() {
-
 		let row = window.selectRow;
+        row.productId = row.productId;
 		row.recordPrice = row.productPrice;
 		row.recordAddPoints = row.productAddPoints;
 		row.recordMinusPoints = row.productMinusPoints;
@@ -105,6 +106,15 @@
 		expiresTime.setMinutes(expiresTime.getMinutes() + ${productUrlExpires});
 		$('#recordUrlExpires').datetimebox('setValue', expiresTime.formatDate('yyyy-MM-dd hh:mm:ss'));
 	});
+
+	function saveRecord() {
+	    if ($("#dataForm").form("validate")) {
+            let data = getFormData("#dataForm");
+            delete data.productName;
+            window.actions.confirm(data);
+	    }
+	}
+
 </script>
 
 </body>

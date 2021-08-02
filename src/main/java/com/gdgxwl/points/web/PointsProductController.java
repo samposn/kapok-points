@@ -85,12 +85,12 @@ public class PointsProductController {
         String isAll = req.getParameter("isAll");
 
         if ("Y".equals(isAll)) {
-            Sort sort = SearchUtil.getSort("productId_desc");
+            Sort sort = SearchUtil.getSort("lastUpdateTime_desc");
             return pointsProductService.doSearch(spec, sort);
         }
         else {
             // 使用 SearchUtil 工具类从前端请求 ServletRequest 里获得分页对象，按用户 ID 倒序
-            Pageable pageable = SearchUtil.getPageableWithOrderBy(req, "productId_desc");
+            Pageable pageable = SearchUtil.getPageableWithOrderBy(req, "lastUpdateTime_desc");
             return pointsProductService.doSearch(spec, pageable);
         }
     }

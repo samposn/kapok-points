@@ -297,9 +297,9 @@
             '<td>' + (row.record_uid||'') + '</td>' +
             '<td>' + (row.record_qq||'') + '</td>' +
             '<td>' + (row.product_name||'') + '</td>' +
-            '<td>' + (row.product_price||'') + '</td>' +
-            '<td>' + (row.product_add_points||'') + '</td>' +
-            '<td>' + (row.product_minus_points||'') + '</td>' +
+            '<td>' + (row.record_price||'') + '</td>' +
+            '<td>' + (row.record_add_points||'') + '</td>' +
+            '<td>' + (row.record_minus_points||'') + '</td>' +
             '<td>' + (row.product_status||'') + '</td>' +
             '</tr>';
         $('#dataTableBody').append(rowData);

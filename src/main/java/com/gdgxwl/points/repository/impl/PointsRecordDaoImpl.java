@@ -31,13 +31,15 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             .addField("record_qq")
             .addField("product_name")
             .addField("product_price")
-            .addField("product_add_points")
-            .addField("product_minus_points")
+            .addField("record_price")
+            .addField("record_add_points")
+            .addField("record_minus_points")
             .addField("product_copyright")
-            .addField("product_operator")
+            .addField("record_operator")
             .addField("product_status")
             .addField("record_payment_type")
-            .addField("record_tabbao_num")
+            .addField("record_taobao_num")
+            .addField("record_url_expires", Field.DataType.Timestamp)
             .addField("create_time", Field.DataType.Timestamp);
 
         String sql = "SELECT "
@@ -47,14 +49,16 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             + " 	,r.RECORD_UID "
             + " 	,r.RECORD_QQ "
             + " 	,p.PRODUCT_NAME "
-            + " 	,p.PRODUCT_PRICE "
-            + " 	,p.PRODUCT_ADD_POINTS "
-            + " 	,p.PRODUCT_MINUS_POINTS "
+            + " 	,r.PRODUCT_PRICE "
+            + " 	,r.RECORD_PRICE "
+            + " 	,r.RECORD_ADD_POINTS "
+            + " 	,r.RECORD_MINUS_POINTS "
             + " 	,p.PRODUCT_COPYRIGHT "
-            + " 	,p.PRODUCT_OPERATOR "
+            + " 	,r.RECORD_OPERATOR "
             + "     ,p.PRODUCT_STATUS "
             + " 	,r.RECORD_PAYMENT_TYPE "
             + " 	,r.RECORD_TAOBAO_NUM "
+            + "     ,r.RECORD_URL_EXPIRES "
             + "     ,r.CREATE_TIME "
             + " FROM "
             + " 	points_record r "
@@ -74,16 +78,18 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             .addField("recordUid")
             .addField("recordQq")
             .addField("product_name")
-            .addField("product_price")
-            .addField("product_add_points")
-            .addField("product_minus_points")
+            .addField("productPrice")
+            .addField("recordPrice")
+            .addField("recordAddPoints")
+            .addField("recordMinusPoints")
             .addField("product_copyright")
-            .addField("product_operator")
+            .addField("recordOperator")
             .addField("product_status")
             .addField("recordPaymentType")
             .addField("recordTaobaoNum")
             .addField("productId")
             .addField("createrId")
+            .addField("recordUrlExpires", Field.DataType.Timestamp)
             .addField("createTime", Field.DataType.Timestamp);
 
         String sql = "SELECT "
@@ -93,16 +99,18 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             + " 	,r.RECORD_UID "
             + " 	,r.RECORD_QQ "
             + " 	,p.PRODUCT_NAME "
-            + " 	,p.PRODUCT_PRICE "
-            + " 	,p.PRODUCT_ADD_POINTS "
-            + " 	,p.PRODUCT_MINUS_POINTS "
+            + " 	,r.PRODUCT_PRICE "
+            + " 	,r.RECORD_PRICE "
+            + " 	,r.RECORD_ADD_POINTS "
+            + " 	,r.RECORD_MINUS_POINTS "
             + " 	,p.PRODUCT_COPYRIGHT "
-            + " 	,p.PRODUCT_OPERATOR "
+            + " 	,r.RECORD_OPERATOR "
             + "     ,p.PRODUCT_STATUS "
             + " 	,r.RECORD_PAYMENT_TYPE "
             + " 	,r.RECORD_TAOBAO_NUM "
             + "     ,r.PRODUCT_ID "
             + "     ,r.CREATE_BY "
+            + "     ,r.RECORD_URL_EXPIRES "
             + "     ,r.CREATE_TIME "
             + " FROM "
             + " 	points_record r "
@@ -117,12 +125,12 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
     public List<Map<String, Object>> totalPoints(Map<String, SearchFilter> conditions) {
 
         ResultFields fields = new ResultFields();
-        fields.addField("product_add_points")
-            .addField("product_minus_points");
+        fields.addField("record_add_points")
+            .addField("record_minus_points");
 
         String sql = "SELECT "
-            + " 	p.PRODUCT_ADD_POINTS "
-            + " 	,p.PRODUCT_MINUS_POINTS "
+            + " 	r.RECORD_ADD_POINTS "
+            + " 	,r.RECORD_MINUS_POINTS "
             + " FROM "
             + " 	points_record r "
             + " 	LEFT JOIN points_product p ON r.product_id = p.product_id "
