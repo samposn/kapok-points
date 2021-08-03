@@ -43,11 +43,8 @@
                         </div>
                         <div class="col-xs-12 col-md-6 col-md-offset-3">
                             <form id="recordForm" class="form-horizontal">
-								<input id="recordId" name="recordId" type="hidden" value="${row.recordId}">
 								<input id="productId" name="productId" type="hidden" value="${row.productId}">
 								<input id="productPrice" name="productPrice" type="hidden" value="${row.productPrice}">
-								<input id="createrId" name="createrId" type="hidden" value="${row.createrId}">
-								<input id="createTime" name="createTime" type="hidden" value="${row.createTime}">
                                 <div class="form-group">
                                     <label for="recordPlatform" class="col-sm-3 control-label">平台：</label>
                                     <div class="col-sm-9">

@@ -1,16 +1,13 @@
 package com.gdgxwl.points.repository;
 
 import com.gdgxwl.core.repository.BaseDao;
-import com.gdgxwl.points.domain.PointsRecord;
+import com.gdgxwl.points.domain.PointsLink;
 
 /**
- * PointsRecordDao
+ * PointsLinkDao
  *
  * @author <a href="mailto:samposn@163.com">Will WM. Zhang</a>
  * @since 1.0
  */
-public interface PointsRecordDao extends BaseDao<PointsRecord, Integer>, PointsRecordDaoPlus {
-
-
-
+public interface PointsLinkDao extends BaseDao<PointsLink, String> {
 }

@@ -29,12 +29,13 @@
 	<div id="list" style="height: 300px;padding-top:40px">
 		<form id="dataForm">
 		    <input id="productId" name="productId" type="hidden">
+			<input id="product_copyright" name="product_copyright" type="hidden">
 			<table class="g-form" style="height:100%" cellpadding="0" cellspacing="0">
 				<tbody>
 					<tr>
 						<td class="">
 							<label class="form-label" title="商品">商品</label>
-							<input id="productName" name="productName" class="easyui-validatebox form-control" readonly>
+							<input id="product_name" name="product_name" class="easyui-validatebox form-control" readonly>
 						</td>
 					</tr>
 					<tr>
@@ -100,6 +101,8 @@
 		row.recordPrice = row.productPrice;
 		row.recordAddPoints = row.productAddPoints;
 		row.recordMinusPoints = row.productMinusPoints;
+		row.product_name = row.productName;
+		row.product_copyright = row.productCopyright
 		$("#dataForm").form("load", row);
 
 		let expiresTime = new Date();
@@ -110,8 +113,12 @@
 	function saveRecord() {
 	    if ($("#dataForm").form("validate")) {
             let data = getFormData("#dataForm");
-            delete data.productName;
-            window.actions.confirm(data);
+            let link = {}
+			link.expires = data.recordUrlExpires;
+			delete data.recordUrlExpires;
+			link.params = JSON.stringify(data);
+			console.log(link)
+            window.actions.confirm(link);
 	    }
 	}
 

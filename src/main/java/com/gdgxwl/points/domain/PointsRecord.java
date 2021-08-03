@@ -100,7 +100,7 @@ public class PointsRecord extends BaseEntity {
     private String recordOperator;
 
     /**
-     * 链接有效时间
+     * 链接有效时间 (作废)
      */
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

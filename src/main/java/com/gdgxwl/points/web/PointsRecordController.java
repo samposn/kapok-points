@@ -1,12 +1,13 @@
 package com.gdgxwl.points.web;
 
+import com.gdgxwl.core.common.json.JsonUtil;
 import com.gdgxwl.core.common.web.SearchUtil;
+import com.gdgxwl.points.domain.PointsLink;
 import com.gdgxwl.points.domain.PointsRecord;
-import com.gdgxwl.points.service.PointsProductService;
+import com.gdgxwl.points.service.PointsLinkService;
 import com.gdgxwl.points.service.PointsRecordService;
+import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -26,37 +25,35 @@ import java.util.Map;
  * @since 1.0
  */
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(value = "/record")
 public class PointsRecordController {
 
-    @Autowired
-    private PointsProductService pointsProductService;
-
-    @Autowired
-    private PointsRecordService pointsRecordService;
+    private final PointsRecordService pointsRecordService;
+    private final PointsLinkService pointsLinkService;
 
     @RequestMapping(value = "/list")
     public String list() {
         return "points/record/record";
     }
 
-    @RequestMapping(value = "/add/{productId}")
-    public String add(Model model,  @PathVariable Integer productId) throws ParseException {
-        Map<String, Object> stringObjectMap = pointsRecordService.getOne(productId);
+    @RequestMapping(value = "/add/{id}")
+    public String add(Model model,  @PathVariable String id) throws Exception {
+        Map<String, Object> stringObjectMap = pointsLinkService.doSelect(id);
         model.addAttribute("resultCode", stringObjectMap.get("resultCode"));
         model.addAttribute("resultMsg", stringObjectMap.get("resultMsg"));
         model.addAttribute("errorCode", stringObjectMap.get("errorCode"));
 
-        Map<String, Object> row = (Map<String, Object>) stringObjectMap.get("row");
-        Object recordUrlExpires = row.get("recordUrlExpires");
-        if (recordUrlExpires == null) {
-            row.put("exp", 0);
+        PointsLink row = (PointsLink) stringObjectMap.get("row");
+        Map<String, Object> data = JsonUtil.parseValue(row.getParams());
+
+        if (row.getExpires() == null) {
+            data.put("exp", 0);
         } else {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            row.put("exp", simpleDateFormat.parse(recordUrlExpires.toString()).getTime());
+            data.put("exp", row.getExpires().getTime());
         }
 
-        model.addAttribute("row", row);
+        model.addAttribute("row", data);
         return "points/record/record-add";
     }
 

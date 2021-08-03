@@ -1,7 +1,6 @@
 package com.gdgxwl.points.web;
 
 import com.gdgxwl.base.common.ConfigUtil;
-import com.gdgxwl.base.domain.GxwlSysUser;
 import com.gdgxwl.core.common.web.SearchUtil;
 import com.gdgxwl.points.domain.PointsProduct;
 import com.gdgxwl.points.service.PointsProductService;
@@ -69,10 +68,10 @@ public class PointsProductController {
         return pointsProductService.doSave(pointsProduct);
     }
 
-    @RequestMapping(value = "/createRecord")
+    @RequestMapping(value = "/createLink")
     public String selectRole(Model model) {
         model.addAttribute("productUrlExpires", ConfigUtil.getConfigValue("productUrlExpires"));
-        return "points/product/create-record";
+        return "points/product/create-link";
     }
 
     private Map<String, Object> doSearch(HttpServletRequest req) {

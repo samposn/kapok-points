@@ -42,7 +42,7 @@
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 		</shiro:hasPermission>
 		<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
-		<a id="createRecord" class="easyui-linkbutton toolbar g-button" onclick="createRecord()"><i class="fa fa-cog"></i>创建授权记录</a>
+		<a id="createLink" class="easyui-linkbutton toolbar g-button" onclick="createLink()"><i class="fa fa-cog"></i>创建授权链接</a>
 	</div>
 
 	<!-- 内容区域 -->
@@ -158,7 +158,7 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "del", "edit", "createRecord"]);
+						enableButtons(["add", "del", "edit", "createLink"]);
 					} else {
 						enableButtons(["add"]);
 					}
@@ -195,7 +195,7 @@
 				// {field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit", "createRecord"]);
+				enableButtons(["add", "del", "edit", "createLink"]);
 				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
@@ -342,37 +342,37 @@
 	}
 	
 	// 复制授权链接
-	function copyLink(recordId) {
+	function copyLink(id) {
 		$.messager.alert("温馨提示", "授权地址创建成功，可以发送啦！", "info", function() {
 			var copyLinkInput = document.getElementById("copyLinkInput");
-			copyLinkInput.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + recordId);
+			copyLinkInput.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + id);
 			copyLinkInput.select();
 			document.execCommand("Copy");
 		});
 	}
 
 	// 创建授权记录
-	function createRecord() {
+	function createLink() {
 		$("#productDialog").dialog({
 			title: "创建授权记录",
 			width: 500,
 			height: 380,
 			closed: false,
 			cache: false,
-			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/createRecord" style="width:100%;height:100%;"></iframe>',
+			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/createLink" style="width:100%;height:100%;"></iframe>',
 			modal: true,
 			onOpen : function() {
 				$("#productframe")[0].contentWindow.selectRow  = $("#listGrid").datagrid("getSelected");
 				$("#productframe")[0].contentWindow.actions = {
-					confirm : function(data) {
+					confirm : function(link) {
                         $.ajax({
                             type : "POST",
-                            url : "${ctx}/record/save",
-                            data : data
+                            url : "${ctx}/link/save",
+                            data : link
                         }).done(function(res) {
                             $.messager.progress("close");
                             if (res.resultCode === 0) {
-                                copyLink(res.row.recordId);
+                                copyLink(res.row.id);
                             } else {
                                 $.messager.alert("温馨提示", res.resultMsg, "error");
                             }

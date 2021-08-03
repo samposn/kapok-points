@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.gdgxwl.core.common.AjaxUtils;
 import org.apache.commons.lang3.StringUtils;
 
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;

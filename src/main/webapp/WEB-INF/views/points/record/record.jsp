@@ -40,7 +40,7 @@
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 			<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
 		</shiro:hasPermission>
-		<a id="copyLink" class="easyui-linkbutton toolbar g-button" onclick="copyLink()"><i class="fa fa-copy-o"></i>复制授权链接</a>
+		<%-- <a id="copyLink" class="easyui-linkbutton toolbar g-button" onclick="copyLink()"><i class="fa fa-copy-o"></i>复制授权链接</a>--%>
 	</div>
 
 	<!-- 内容区域 -->
@@ -233,7 +233,7 @@
                 {field : "record_operator", title : " 经手人", width : 100, halign : 'center'},
                 {field : "record_payment_type", title : " 支付方式", width : 100, halign : 'center'},
                 {field : "record_taobao_num", title : " 淘宝订单号", width : 100, halign : 'center'},
-				{field : "record_url_expires", title : "授权链接有效期", width : 130, halign : 'center'},
+				// {field : "record_url_expires", title : "授权链接有效期", width : 130, halign : 'center'},
 				{field : "create_time", title : " 创建时间", width : 130, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {

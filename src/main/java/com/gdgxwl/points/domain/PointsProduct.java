@@ -3,7 +3,6 @@ package com.gdgxwl.points.domain;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gdgxwl.base.domain.BaseEntity;
 import com.gdgxwl.core.common.json.JsonDateTimeSerializer;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
