@@ -44,13 +44,13 @@ public class PointsProduct extends BaseEntity {
      * 获取积分
      */
     @Column(name = "PRODUCT_ADD_POINTS")
-    private Integer productAddPoints;
+    private BigDecimal productAddPoints;
 
     /**
      * 扣除积分
      */
     @Column(name = "PRODUCT_MINUS_POINTS")
-    private Integer productMinusPoints;
+    private BigDecimal productMinusPoints;
 
     /**
      * 版权方
@@ -103,19 +103,19 @@ public class PointsProduct extends BaseEntity {
         this.productPrice = productPrice;
     }
 
-    public Integer getProductAddPoints() {
+    public BigDecimal getProductAddPoints() {
         return productAddPoints;
     }
 
-    public void setProductAddPoints(Integer productAddPoints) {
+    public void setProductAddPoints(BigDecimal productAddPoints) {
         this.productAddPoints = productAddPoints;
     }
 
-    public Integer getProductMinusPoints() {
+    public BigDecimal getProductMinusPoints() {
         return productMinusPoints;
     }
 
-    public void setProductMinusPoints(Integer productMinusPoints) {
+    public void setProductMinusPoints(BigDecimal productMinusPoints) {
         this.productMinusPoints = productMinusPoints;
     }
 

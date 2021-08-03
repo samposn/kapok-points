@@ -30,7 +30,7 @@ public class PointsRecord extends BaseEntity {
     /**
      * 平台
      */
-    @Column(name = "RECORD_PLATFORM", length = 200)
+    @Column(name = "RECORD_PLATFORM", length = 50)
     private String recordPlatform;
 
     /**
@@ -48,8 +48,8 @@ public class PointsRecord extends BaseEntity {
     /**
      * QQ
      */
-    @Column(name = "RECORD_QQ")
-    private Integer recordQq;
+    @Column(name = "RECORD_QQ", length = 20)
+    private String recordQq;
 
     /**
      * 商品价格
@@ -67,13 +67,13 @@ public class PointsRecord extends BaseEntity {
      * 获取积分
      */
     @Column(name = "RECORD_ADD_POINTS")
-    private Integer recordAddPoints;
+    private BigDecimal recordAddPoints;
 
     /**
      * 扣除积分
      */
     @Column(name = "RECORD_MINUS_POINTS")
-    private Integer recordMinusPoints;
+    private BigDecimal recordMinusPoints;
 
     /**
      * 支付方式
@@ -140,11 +140,11 @@ public class PointsRecord extends BaseEntity {
         this.recordUid = recordUid;
     }
 
-    public Integer getRecordQq() {
+    public String getRecordQq() {
         return recordQq;
     }
 
-    public void setRecordQq(Integer recordQq) {
+    public void setRecordQq(String recordQq) {
         this.recordQq = recordQq;
     }
 
@@ -164,19 +164,19 @@ public class PointsRecord extends BaseEntity {
         this.recordPrice = recordPrice;
     }
 
-    public Integer getRecordAddPoints() {
+    public BigDecimal getRecordAddPoints() {
         return recordAddPoints;
     }
 
-    public void setRecordAddPoints(Integer recordAddPoints) {
+    public void setRecordAddPoints(BigDecimal recordAddPoints) {
         this.recordAddPoints = recordAddPoints;
     }
 
-    public Integer getRecordMinusPoints() {
+    public BigDecimal getRecordMinusPoints() {
         return recordMinusPoints;
     }
 
-    public void setRecordMinusPoints(Integer recordMinusPoints) {
+    public void setRecordMinusPoints(BigDecimal recordMinusPoints) {
         this.recordMinusPoints = recordMinusPoints;
     }
 

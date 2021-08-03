@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -67,29 +69,21 @@ public class PointsRecordServiceImpl extends
     }
 
     @Override
-    public Integer totalPoints(Map<String, SearchFilter> conditions) {
-        int totalAddPoints = 0;
-        int totalMinusPoints = 0;
+    public Double totalPoints(Map<String, SearchFilter> conditions) {
+        double totalAddPoints = 0;
+        double totalMinusPoints = 0;
         try {
             List<Map<String, Object>> list = pointsRecordDao.totalPoints(conditions);
-            totalAddPoints = list.stream().mapToInt(item -> {
-                if (item.get("record_add_points") == null) {
-                    return 0;
-                } else if (!NumberUtils.isDigits(item.get("record_add_points").toString())) {
-                    return 0;
-                } else {
-                    return Integer.parseInt(item.get("record_add_points").toString());
+            for (Map<String, Object> item : list) {
+                if (item.get("record_add_points") != null &&
+                    NumberUtils.isNumber(item.get("record_add_points").toString())) {
+                    totalAddPoints += Double.parseDouble(item.get("record_add_points").toString());
                 }
-            }).sum();
-            totalMinusPoints = list.stream().mapToInt(item -> {
-                if (item.get("record_minus_points") == null) {
-                    return 0;
-                } else if (!NumberUtils.isDigits(item.get("record_minus_points").toString())) {
-                    return 0;
-                } else {
-                    return Integer.parseInt(item.get("record_minus_points").toString());
+                if (item.get("record_minus_points") != null &&
+                    NumberUtils.isNumber(item.get("record_minus_points").toString())) {
+                    totalMinusPoints += Double.parseDouble(item.get("record_minus_points").toString());
                 }
-            }).sum();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

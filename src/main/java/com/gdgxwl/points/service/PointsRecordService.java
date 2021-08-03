@@ -20,6 +20,6 @@ public interface PointsRecordService extends BaseService<PointsRecordDao, Points
 
     Map<String, Object> getOne(Integer id);
 
-    Integer totalPoints(Map<String, SearchFilter> conditions);
+    Double totalPoints(Map<String, SearchFilter> conditions);
 
 }
