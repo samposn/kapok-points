@@ -178,8 +178,8 @@
                         timeout: 2500,
                         showType: "slide"
                     });
-                    $('input').attr('readonly', true);
-                    $('button').attr('disabled', 'disabled');
+                    let url = 'http://' + window.location.host + '${ctx}' + '/record/query/show/' + res.row.recordQq + '/' + res.row.recordUid;
+                    window.location.replace(url);
                 } else {
                     $.messager.alert("温馨提示", res.resultMsg, "error");
                 }

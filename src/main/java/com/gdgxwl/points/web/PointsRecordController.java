@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 /**
@@ -77,7 +78,10 @@ public class PointsRecordController {
     public Map<String, Object> search(HttpServletRequest req) {
         Map<String, Object> stringObjectMap = pointsRecordService.search(SearchUtil.getSearchFilters(req),
             SearchUtil.getPageableWithOrderBy(req, "r.LAST_UPDATE_TIME_desc"));
-        stringObjectMap.put("totalPoints", pointsRecordService.totalPoints(SearchUtil.getSearchFilters(req)));
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        String totalPoints = decimalFormat
+            .format(pointsRecordService.totalPoints(SearchUtil.getSearchFilters(req)));
+        stringObjectMap.put("totalPoints", totalPoints);
         return stringObjectMap;
     }
 

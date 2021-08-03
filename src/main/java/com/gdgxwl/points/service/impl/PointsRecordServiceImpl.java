@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -67,24 +68,24 @@ public class PointsRecordServiceImpl extends
     }
 
     @Override
-    public Double totalPoints(Map<String, SearchFilter> conditions) {
-        double totalAddPoints = 0;
-        double totalMinusPoints = 0;
+    public BigDecimal totalPoints(Map<String, SearchFilter> conditions) {
+        BigDecimal totalAddPoints = new BigDecimal(0);
+        BigDecimal totalMinusPoints = new BigDecimal(0);
         try {
             List<Map<String, Object>> list = pointsRecordDao.totalPoints(conditions);
             for (Map<String, Object> item : list) {
                 if (item.get("record_add_points") != null &&
                     NumberUtils.isNumber(item.get("record_add_points").toString())) {
-                    totalAddPoints += Double.parseDouble(item.get("record_add_points").toString());
+                    totalAddPoints = new BigDecimal(item.get("record_add_points").toString()).add(totalAddPoints);
                 }
                 if (item.get("record_minus_points") != null &&
                     NumberUtils.isNumber(item.get("record_minus_points").toString())) {
-                    totalMinusPoints += Double.parseDouble(item.get("record_minus_points").toString());
+                    totalMinusPoints = new BigDecimal(item.get("record_minus_points").toString()).add(totalMinusPoints);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (totalAddPoints - totalMinusPoints);
+        return totalAddPoints.subtract(totalMinusPoints);
     }
 }

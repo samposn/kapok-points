@@ -6,6 +6,7 @@ import com.gdgxwl.points.domain.PointsRecord;
 import com.gdgxwl.points.repository.PointsRecordDao;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -20,6 +21,6 @@ public interface PointsRecordService extends BaseService<PointsRecordDao, Points
 
     Map<String, Object> getOne(Integer id);
 
-    Double totalPoints(Map<String, SearchFilter> conditions);
+    BigDecimal totalPoints(Map<String, SearchFilter> conditions);
 
 }
