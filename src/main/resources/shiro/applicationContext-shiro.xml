@@ -54,6 +54,7 @@
 				/record/query/show/** = anon
 				/record/search = anon
 				/record/save = anon
+				/datacheck/** = anon
 				/** = authc
 			</value>
 		</property>
