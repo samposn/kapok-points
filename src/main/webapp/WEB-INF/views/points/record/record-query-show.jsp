@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5">
     <title>${system_name}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="${ctx}/favicon.ico" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -150,15 +152,14 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="10" class="container">
+                        <td colspan="11" class="container">
                             <div class="row justify-content-center">
                                 <div class="col-6 text-center">
                                     <div class="page-panel">
                                         <a href="javascript:void(0)" onclick="first()"><i
                                                 class="bi bi-skip-backward-fill"></i></a>&nbsp;&nbsp;
                                         <a href="javascript:void(0)" onclick="previous()">
-                                            <i class="bi bi-skip-start-fill"></i>
-                                        </a>&nbsp;&nbsp;
+                                            <i class="bi bi-skip-start-fill"></i></a>&nbsp;&nbsp;
                                         第&nbsp;&nbsp;<input class="page-num text-center" id="currentPage"/>&nbsp;&nbsp;页&nbsp;&nbsp;共&nbsp;&nbsp;<span class="total-page"></span>&nbsp;&nbsp;页&nbsp;&nbsp;
                                         <a href="javascript:void(0)" onclick="next()"><i
                                                 class="bi bi-skip-end-fill"></i></a>&nbsp;&nbsp;
@@ -186,7 +187,7 @@
     </div>
     <div>
         <footer class="mt-5 col-12 text-center">
-            <a href="${ctx}/record/query" class="btn btn-md">返回</a>
+            <a href="${ctx}/" class="btn btn-md">返回</a>
         </footer>
     </div>
 </div>
@@ -202,7 +203,6 @@
 <script type="text/javascript">
 
     let qq;
-    let uid;
     let currentPage = 1;
     let totalPage = 0;
     let rows = 10;
@@ -210,9 +210,8 @@
 
     $(function () {
         qq = '${qq}';
-        uid = '${uid}';
 
-        if (!qq || !uid) {
+        if (!qq) {
             $('#dataTableBody').append(noData);
         } else {
             loadData(currentPage);
@@ -267,7 +266,6 @@
             url: "${ctx}/record/search",
             data: {
                 q_record_qq_EQ: qq,
-                q_record_uid_EQ: uid,
                 page: page,
                 rows: rows
             }

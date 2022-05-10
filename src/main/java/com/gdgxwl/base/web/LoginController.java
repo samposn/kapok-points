@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 
  */
 @Controller
-@RequestMapping
+@RequestMapping("/dashboard")
 public class LoginController {
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		SecurityUtils.getSubject().logout();
-		return "redirect:/";
+		return "redirect:/dashboard";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

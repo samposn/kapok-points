@@ -108,6 +108,12 @@ public class PointsRecord extends BaseEntity {
     @Column(name = "RECORD_URL_EXPIRES")
     private Date recordUrlExpires;
 
+    /**
+     * 备注
+     */
+    @Column(name = "RECORD_REMARK")
+    private String recordRemark;
+
     public Integer getRecordId() {
         return recordId;
     }
@@ -218,5 +224,13 @@ public class PointsRecord extends BaseEntity {
 
     public void setRecordUrlExpires(Date recordUrlExpires) {
         this.recordUrlExpires = recordUrlExpires;
+    }
+
+    public String getRecordRemark() {
+        return recordRemark;
+    }
+
+    public void setRecordRemark(String recordRemark) {
+        this.recordRemark = recordRemark;
     }
 }

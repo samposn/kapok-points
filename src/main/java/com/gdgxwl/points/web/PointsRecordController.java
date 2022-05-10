@@ -63,12 +63,10 @@ public class PointsRecordController {
         return "points/record/record-query";
     }
 
-    @RequestMapping(value = "/query/show/{qq}/{uid}")
+    @RequestMapping(value = "/query/show/{qq}")
     public String queryShow(Model model,
-                            @PathVariable String qq,
-                            @PathVariable String uid) {
+                            @PathVariable String qq) {
         model.addAttribute("qq", qq);
-        model.addAttribute("uid", uid);
         return "points/record/record-query-show";
     }
 

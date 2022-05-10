@@ -95,7 +95,7 @@
 
 			$.ajax({
 				type: "POST",
-				url: "${ctx}/login",
+				url: "${ctx}/dashboard/login",
 				data: {
 					username: uValue,
 					password: pValue
@@ -103,7 +103,7 @@
 			}).done(function(res) {
 				$("#loginForm")[0].reset();
 				if (res.resultCode == "0") {
-					window.location.href = "${ctx}/home";
+					window.location.href = "${ctx}/dashboard/home";
 				} else {
 					$('.miss').text(res.resultMsg)
 				}

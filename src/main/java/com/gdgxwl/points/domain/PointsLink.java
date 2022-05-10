@@ -31,7 +31,7 @@ public class PointsLink {
     private String id ;
 
     /**
-     * 商品名称
+     * 参数
      */
 
     @Column(name = "PARAMS")

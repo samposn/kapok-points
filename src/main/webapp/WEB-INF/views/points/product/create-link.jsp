@@ -26,7 +26,7 @@
 
 <body>
 <div class="content">
-	<div id="list" style="height: 300px;padding-top:40px">
+	<div id="list" style="height: 340px;padding-top:40px">
 		<form id="dataForm">
 		    <input id="productId" name="productId" type="hidden">
 			<input id="product_copyright" name="product_copyright" type="hidden">
@@ -34,49 +34,55 @@
 				<tbody>
 					<tr>
 						<td class="">
-							<label class="form-label" title="商品">商品</label>
+							<label class="form-label" for="product_name" title="商品">商品</label>
 							<input id="product_name" name="product_name" class="easyui-validatebox form-control" readonly>
 						</td>
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" title="价格">商品价格</label>
+							<label class="form-label" for="productPrice" title="价格">商品价格</label>
 							<input id="productPrice" name="productPrice" class="easyui-validatebox form-control" readonly>
 						</td>
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" title="价格">出售价格</label>
+							<label class="form-label" for="recordPrice" title="价格">出售价格</label>
 							<input id="recordPrice" name="recordPrice" class="easyui-validatebox form-control"
 								   data-options="required: true">
 						</td>
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" title="获取积分">获取积分</label>
+							<label class="form-label" for="recordAddPoints" title="获取积分">获取积分</label>
 							<input id="recordAddPoints" name="recordAddPoints" class="easyui-validatebox form-control"
 								   data-options="required: true">
 						</td>
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" title="扣除积分">扣除积分</label>
+							<label class="form-label" for="recordMinusPoints" title="扣除积分">扣除积分</label>
 							<input id="recordMinusPoints" name="recordMinusPoints" class="easyui-validatebox form-control"
 								   data-options="required: true">
 						</td>
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" title="经手人">经手人</label>
+							<label class="form-label" for="recordOperator"  title="经手人">经手人</label>
 							<input id="recordOperator" name="recordOperator" class="easyui-validatebox form-control"
 								   data-options="required: true">
 						</td>
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" title="链接有效时间">链接有效时间</label>
+							<label class="form-label" for="recordUrlExpires" title="链接有效时间">链接有效时间</label>
 							<input id="recordUrlExpires" name="recordUrlExpires" class="easyui-datetimebox"
 								   data-options="required: true">
+						</td>
+					</tr>
+					<tr>
+						<td class="">
+							<label class="form-label" for="everLink" title="永久链接">永久链接</label>
+							<input id="everLink" name="everLink" value="YES" type="checkbox" style="margin: 7px auto;">
 						</td>
 					</tr>
 				</tbody>
@@ -113,7 +119,8 @@
 	function saveRecord() {
 	    if ($("#dataForm").form("validate")) {
             let data = getFormData("#dataForm");
-            let link = {}
+			data.everLink = $("#everLink:checked").val() || "NO";
+            let link = {};
 			link.expires = data.recordUrlExpires;
 			delete data.recordUrlExpires;
 			link.params = JSON.stringify(data);

@@ -39,6 +39,7 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             .addField("product_status")
             .addField("record_payment_type")
             .addField("record_taobao_num")
+            .addField("record_remark")
             .addField("record_url_expires", Field.DataType.Timestamp)
             .addField("create_time", Field.DataType.Timestamp);
 
@@ -58,6 +59,7 @@ public class PointsRecordDaoImpl extends BaseDaoImpl implements PointsRecordDaoP
             + "     ,p.PRODUCT_STATUS "
             + " 	,r.RECORD_PAYMENT_TYPE "
             + " 	,r.RECORD_TAOBAO_NUM "
+            + "     ,r.RECORD_REMARK"
             + "     ,r.RECORD_URL_EXPIRES "
             + "     ,r.CREATE_TIME "
             + " FROM "

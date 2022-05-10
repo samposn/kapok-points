@@ -32,7 +32,7 @@
 	<!-- Shiro Filter Factory Bean -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/login" />
+		<property name="loginUrl" value="/dashboard/login" />
 		<property name="filters">
 			<map>
 				<entry key="authc" value-ref="authcFilter" />
@@ -41,10 +41,13 @@
 				<!-- <entry key="logout" value-ref="logoutFilter" /> -->
 			</map>
 		</property>
-		<property name="successUrl" value="/index" />
+		<property name="successUrl" value="/dashboard/index" />
 		<property name="filterChainDefinitions">
 			<value>
 				/ = anon
+				/authInfo = anon
+				/dashboard = anon
+				/favicon.ico = anon
 				/wx/** = anon
 				/usertest/** = anon
 				/logout = anon

@@ -31,7 +31,7 @@
 		<div class="info">
 			<img src="${ctx}/resources/images/base/na-imgbg.png">
 			<div>
-				<p class="p2"><shiro:principal/>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="${ctx}/logout">安全退出</a></p>
+				<p class="p2"><shiro:principal/>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="${ctx}/dashboard/logout">安全退出</a></p>
 			</div>
 		</div>
 	</div>
@@ -112,7 +112,7 @@ $(function () {
 		main.addTab({
 			id: 'HOME',
 			title: '<i class="fa fa-home"></i>&nbsp;首页',
-			url: ctx + '/home/index',
+			url: ctx + '/dashboard/home/index',
 			closable: false
 		});
 

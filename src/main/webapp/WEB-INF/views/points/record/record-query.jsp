@@ -87,14 +87,6 @@
                         <input class="form-control" id="record_qq">
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-2">
-                        <label for="record_uid">UID</label>
-                    </div>
-                    <div class="col-10">
-                        <input class="form-control" id="record_uid">
-                    </div>
-                </div>
                 <div class="mt-3">&nbsp;</div>
                 <div class="text-center mt-5">
                     <a class="btn btn-md" onclick="submit()">查询</a>
@@ -131,8 +123,7 @@
     function submit() {
         if (check($("input"))) {
             let qq = $("#record_qq").val();
-            let uid = $("#record_uid").val();
-            $(window).attr('location','${ctx}/record/query/show/'+qq+'/'+uid);
+            $(window).attr('location','${ctx}/record/query/show/'+qq);
         }
     }
 

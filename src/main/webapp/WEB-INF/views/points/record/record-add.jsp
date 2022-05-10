@@ -58,15 +58,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="recordUid" class="col-sm-3 control-label">UID：</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control required" id="recordUid" name="recordUid" placeholder="UID">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="recordQq" class="col-sm-3 control-label">QQ：</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control required" id="recordQq" name="recordQq" placeholder="QQ">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recordUid" class="col-sm-3 control-label">UID：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="recordUid" name="recordUid" placeholder="UID">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -122,6 +122,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="recordRemark" class="col-sm-3 control-label">备注：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="recordRemark" name="recordRemark" placeholder="备注">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
                                         <button type="button" class="btn btn-primary" onclick="tijiao();">提交</button>
                                     </div>
@@ -148,7 +154,7 @@
 
     function tijiao() {
 
-        let blanks = 4;
+        let blanks = 3;
 
         $.each($('.required'), function(i, x) {
             let e = $(x);
@@ -178,7 +184,7 @@
                         timeout: 2500,
                         showType: "slide"
                     });
-                    let url = 'http://' + window.location.host + '${ctx}' + '/record/query/show/' + res.row.recordQq + '/' + res.row.recordUid;
+                    let url = 'http://' + window.location.host + '${ctx}' + '/record/query/show/' + res.row.recordQq;
                     window.location.replace(url);
                 } else {
                     $.messager.alert("温馨提示", res.resultMsg, "error");

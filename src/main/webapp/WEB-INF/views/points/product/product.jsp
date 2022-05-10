@@ -131,6 +131,16 @@
 						</tr>
 					</tbody>
 				</table>
+
+				<!-- 行表区域 -->
+				<div id="subTabs" class="easyui-tabs g-tabs2" data-options="fit:true,border:false" style="height:100%;">
+					<div title="链接信息">
+						<div id="buttonbar" class="g-toolbar">
+							<a id="delLink" class="easyui-linkbutton g-button" onclick="delLink()" >删除</a>
+						</div>
+						<table id="pointsLink" class="easyui-datagrid" style="height: calc(100% - 34px);"></table>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -356,7 +366,7 @@
 		$("#productDialog").dialog({
 			title: "创建授权记录",
 			width: 500,
-			height: 380,
+			height: 420,
 			closed: false,
 			cache: false,
 			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/createLink" style="width:100%;height:100%;"></iframe>',

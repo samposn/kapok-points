@@ -164,6 +164,13 @@
 							</td>
 							<td class="form-cell-1"></td>
 						</tr>
+						<tr>
+							<td class="form-cell-3" colspan="3">
+								<label class="form-label" title="备注">备注</label>
+								<input id="recordRemark" name="recordRemark" class="easyui-validatebox form-control">
+							</td>
+							<td class="form-cell-1"></td>
+						</tr>
 					</tbody>
 				</table>
 			</form>
@@ -234,6 +241,7 @@
                 {field : "record_payment_type", title : " 支付方式", width : 100, halign : 'center'},
                 {field : "record_taobao_num", title : " 淘宝订单号", width : 100, halign : 'center'},
 				// {field : "record_url_expires", title : "授权链接有效期", width : 130, halign : 'center'},
+				{field : "record_remark", title : "备注", width : 200, halign : 'center'},
 				{field : "create_time", title : " 创建时间", width : 130, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
