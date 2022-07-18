@@ -1,13 +1,9 @@
 package com.gdgxwl.points.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.gdgxwl.core.common.json.JsonDateTimeSerializer;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * PointsLink
@@ -31,18 +27,21 @@ public class PointsLink {
     private String id ;
 
     /**
+     * 链接标题
+     */
+    @Column(name = "LINK_TITLE")
+    private String linkTitle;
+
+    /**
+     * 商品 ID
+     */
+    @Column(name = "PRODUCT_ID")
+    private Integer productId;
+
+    /**
      * 参数
      */
-
     @Column(name = "PARAMS")
     private String params;
 
-    /**
-     * 过期时间
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonSerialize(using = JsonDateTimeSerializer.class)
-    @Column(name = "EXPIRES")
-    private Date expires;
 }

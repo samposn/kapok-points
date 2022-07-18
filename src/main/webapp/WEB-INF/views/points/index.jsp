@@ -96,7 +96,7 @@
     <h3><span>粤ICP备 2022046370号</span><span>粤公安网备 44172302000106号</span></h3>
 </footer>
 
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+<script src="${ctx}/resources/js/jquery@3.6.0/jquery-3.6.0.min.js"></script>
 <script src="${ctx}/resources/js/points/main.js"></script>
 </body>
 </html>

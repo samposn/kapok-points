@@ -42,7 +42,6 @@
 			<a id="edit" class="easyui-linkbutton toolbar g-button" onclick="edit()"><i class="fa fa-edit"></i>修改</a>
 		</shiro:hasPermission>
 		<a id="save" class="easyui-linkbutton toolbar g-button" onclick="save()"><i class="fa fa-floppy-o"></i>保存</a>
-		<a id="createLink" class="easyui-linkbutton toolbar g-button" onclick="createLink()"><i class="fa fa-cog"></i>创建授权链接</a>
 	</div>
 
 	<!-- 内容区域 -->
@@ -136,9 +135,12 @@
 				<div id="subTabs" class="easyui-tabs g-tabs2" data-options="fit:true,border:false" style="height:100%;">
 					<div title="链接信息">
 						<div id="buttonbar" class="g-toolbar">
-							<a id="delLink" class="easyui-linkbutton g-button" onclick="delLink()" >删除</a>
+							<a id="addLink" class="easyui-linkbutton g-button" onclick="addLink()"><i class="fa fa-plus"></i>新增</a>
+							<a id="delLink" class="easyui-linkbutton g-button" onclick="delLink()" ><i class="fa fa-trash-o"></i>删除</a>
+							<a id="editLink" class="easyui-linkbutton g-button" onclick="editLink()" ><i class="fa fa-edit"></i>修改</a>
+							<a id="copyLink" class="easyui-linkbutton g-button" onclick="copyLink()" ><i class="fa fa-clone"></i>复制链接</a>
 						</div>
-						<table id="pointsLink" class="easyui-datagrid" style="height: calc(100% - 34px);"></table>
+						<table id="dg_pointsLinks" class="easyui-datagrid" style="height: calc(100% - 34px);"></table>
 					</div>
 				</div>
 			</form>
@@ -168,7 +170,7 @@
 				if (index == 0) {
 					editable = false;
 					if ($("#listGrid").datagrid("getSelections").length > 0) {
-						enableButtons(["add", "del", "edit", "createLink"]);
+						enableButtons(["add", "del", "edit"]);
 					} else {
 						enableButtons(["add"]);
 					}
@@ -205,7 +207,7 @@
 				// {field : "productUrlExpires", title : "链接有效时间", width : 150, halign : 'center'}
  			]],
 			onSelect : function(rowIndex, rowData) {
-				enableButtons(["add", "del", "edit", "createLink"]);
+				enableButtons(["add", "del", "edit"]);
 				// $("#mainTabs").tabs("enableTab", 1);
 				editable = false;
 			},
@@ -224,6 +226,62 @@
 				$("#listGrid").datagrid("unselectAll");
 			}
  		});
+
+		$('#dg_pointsLinks').datagrid({
+			idField: 'id',
+			rownumbers: true,
+			autoRowHeight: false,
+			toolbar: '#buttonbar',
+			// onDblClickRow: _onUserRolesDblClickRow,
+			columns: [[
+				{field: 'id', title: '主键', checkbox: true},
+				{field: 'productId', title: '商品ID', hidden: true},
+				{field: 'linkTitle', title: '标题', width: 200},
+				{field: 'recordPrice', title: '出售价格', width: 80, align: 'right'},
+				{field: 'recordAddPoints', title: '获取积分', width: 80, align: 'right'},
+				{field: 'recordMinusPoints', title: '扣除积分', width: 80, align: 'right'},
+				{field: 'recordOperator', title: '经手人', width: 150},
+				{
+					field: 'recordUrlExpires',
+					title: '链接有效期',
+					width: 130,
+					formatter : function(value,row) {
+						if (value) {
+							if (row.everLink === 'YES') {
+								return '<span style="color:#cccccc;">' + value + '</span>';
+							} else {
+								let exp = Date.parse(value);
+								let now = (new Date()).getTime();
+								if (now - exp > 0) {
+									return '<span style="color:orangered;">' + value + '</span>'
+								} else {
+									return '<span style="color:green;">' + value + '</span>';
+								}
+							}
+						} else {
+							return '<span style="color:orangered;">' + value + '</span>';
+						}
+					}
+				},
+				{
+					field: 'everLink',
+					title: '永久链接',
+					width: 60,
+					align: 'center',
+					formatter : function(value,row) {
+						return value === 'YES' ? '<i class="fa fa-check"></i>' : '';
+					}
+				}
+			]]
+		});
+
+		$('#dataForm').form({
+			onLoadSuccess : function (res) {
+				if (res.pointsLinks) {
+					$('#dg_pointsLinks').datagrid('loadData', res.pointsLinks);
+				}
+			}
+		});
 		
 	});
 
@@ -350,29 +408,27 @@
 			});
 		}
 	}
-	
-	// 复制授权链接
-	function copyLink(id) {
-		$.messager.alert("温馨提示", "授权地址创建成功，可以发送啦！", "info", function() {
-			var copyLinkInput = document.getElementById("copyLinkInput");
-			copyLinkInput.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + id);
-			copyLinkInput.select();
-			document.execCommand("Copy");
-		});
-	}
 
 	// 创建授权记录
-	function createLink() {
+	function addLink() {
 		$("#productDialog").dialog({
-			title: "创建授权记录",
+			title: "创建授权链接",
 			width: 500,
-			height: 420,
+			height: 435,
 			closed: false,
 			cache: false,
 			content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/createLink" style="width:100%;height:100%;"></iframe>',
 			modal: true,
 			onOpen : function() {
-				$("#productframe")[0].contentWindow.selectRow  = $("#listGrid").datagrid("getSelected");
+				let selectProduct = $("#listGrid").datagrid("getSelected");
+				$("#productframe")[0].contentWindow.selectRow  = {
+					productId: selectProduct.productId,
+					productName: selectProduct.productName,
+					productPrice: selectProduct.productPrice,
+					recordPrice: selectProduct.productPrice,
+					recordAddPoints: selectProduct.productAddPoints,
+					recordMinusPoints: selectProduct.productMinusPoints
+				};
 				$("#productframe")[0].contentWindow.actions = {
 					confirm : function(link) {
                         $.ajax({
@@ -383,6 +439,7 @@
                             $.messager.progress("close");
                             if (res.resultCode === 0) {
                                 copyLink(res.row.id);
+								loadProductData();
                             } else {
                                 $.messager.alert("温馨提示", res.resultMsg, "error");
                             }
@@ -399,6 +456,108 @@
 			}
 		});
 		$("#productDialog").css("overflow", "hidden");
+	}
+
+	function delLink() {
+		let rows = $("#dg_pointsLinks").datagrid("getSelections");
+		if (rows.length > 0) {
+			let ids = rows.map(row => {
+				return row.id
+			}).join(",")
+			$.messager.confirm("温馨提示", "确定删除商品链接?",
+					function(r) {
+						if (r) {
+							$.ajax({
+								type: "DELETE",
+								url : "${ctx}/link/del",
+								data: ids
+							}).done(function(res){
+								if (res.resultCode === 0) {
+									$("#dg_pointsLinks").datagrid("clearSelections");
+									loadProductData();
+									$.messager.show({
+										title: "温馨提示",
+										msg: res.resultMsg,
+										timeout: 2500,
+										showType: "slide"
+									});
+								} else {
+									$.messager.alert("温馨提示", res.resultMsg, "error");
+								}
+							}).fail(function(jqXHR, textStatus, errorThrown) {
+								$.messager.alert("温馨提示", "删除出错！", "error");
+							});
+						}
+					});
+		}
+	}
+
+	function editLink() {
+		let row = $("#dg_pointsLinks").datagrid("getSelected");
+		if (row) {
+			$("#productDialog").dialog({
+				title: "创建授权链接",
+				width: 500,
+				height: 435,
+				closed: false,
+				cache: false,
+				content: '<iframe id="productframe" scrolling="auto" frameborder="0" src="${ctx}/product/createLink" style="width:100%;height:100%;"></iframe>',
+				modal: true,
+				onOpen : function() {
+					let selectProduct = $("#listGrid").datagrid("getSelected");
+					$("#productframe")[0].contentWindow.selectRow  = {
+						id: row.id,
+						productId: selectProduct.productId,
+						productName: selectProduct.productName,
+						productPrice: selectProduct.productPrice,
+						linkTitle: row.linkTitle,
+						recordPrice: row.recordPrice,
+						recordAddPoints: row.recordAddPoints,
+						recordMinusPoints: row.recordMinusPoints,
+						recordOperator: row.recordOperator,
+						recordUrlExpires: row.recordUrlExpires,
+						everLink: row.everLink
+					};
+					$("#productframe")[0].contentWindow.actions = {
+						confirm : function(link) {
+							$.ajax({
+								type : "POST",
+								url : "${ctx}/link/save",
+								data : link
+							}).done(function(res) {
+								$.messager.progress("close");
+								if (res.resultCode === 0) {
+									copyLink(res.row.id);
+									loadProductData();
+								} else {
+									$.messager.alert("温馨提示", res.resultMsg, "error");
+								}
+							}).fail(function() {
+								$.messager.progress("close");
+								$.messager.alert("温馨提示", "保存出错！", "error");
+							});
+							$("#productDialog").dialog("close");
+						},
+						cancel : function() {
+							$("#productDialog").dialog("close");
+						}
+					};
+				}
+			});
+			$("#productDialog").css("overflow", "hidden");
+		}
+	}
+
+	// 复制授权链接
+	function copyLink(id) {
+		let row = $("#dg_pointsLinks").datagrid("getSelected");
+		id = id || row.id;
+		$.messager.alert("温馨提示", "授权地址已经复制，可以发送啦！", "info", function() {
+			let copyLinkInput = document.getElementById("copyLinkInput");
+			copyLinkInput.setAttribute('value', 'http://' + window.location.host + '${ctx}' + '/record/add/' + id);
+			copyLinkInput.select();
+			document.execCommand("Copy");
+		});
 	}
 
 	function _setFormEditable(editable) {

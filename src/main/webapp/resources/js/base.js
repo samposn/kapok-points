@@ -126,7 +126,7 @@
 					if (c.indexOf('SessionTimeout') != -1) {
 						e.target.contentDocument.body.innerHTML = '';
 						main.warn('温馨提示', '登录超时，请重新登录！', function() {
-							window.parent.location.href = main.ctx+'/';
+							window.parent.location.href = main.ctx+'/dashboard';
 						});
 					}
 				});

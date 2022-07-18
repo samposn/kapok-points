@@ -12,7 +12,7 @@
     <%--    <link rel="shortcut icon" href="${ctx}/resources/images/logo_16.ico">--%>
     <link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/resources/libs/${bootstrap}/css/bootstrap.min.css">
 
     <!--[if IE 7]>
     <link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome-ie7.min.css">
@@ -72,7 +72,7 @@
                                 <div class="form-group">
                                     <label for="product_name" class="col-sm-3 control-label">商品名称：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.product_name}" class="form-control" id="product_name" placeholder="商品" readonly>
+                                        <input type="text" value="${row.productName}" class="form-control" id="product_name" placeholder="商品" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -99,7 +99,7 @@
                                 <div class="form-group">
                                     <label for="product_copyright" class="col-sm-3 control-label">版权方：</label>
                                     <div class="col-sm-9">
-                                        <input type="text" value="${row.product_copyright}" class="form-control" id="product_copyright" placeholder="版权方" readonly>
+                                        <input type="text" value="${row.productCopyright}" class="form-control" id="product_copyright" placeholder="版权方" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="recordTaobaoNum" class="col-sm-3 control-label">淘宝订单号：</label>
+                                    <label for="recordTaobaoNum" class="col-sm-3 control-label">交易订单号：</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="recordTaobaoNum" name="recordTaobaoNum" placeholder="淘宝订单号">
                                     </div>

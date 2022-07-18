@@ -4,6 +4,8 @@ import com.gdgxwl.core.service.BaseService;
 import com.gdgxwl.points.domain.PointsLink;
 import com.gdgxwl.points.repository.PointsLinkDao;
 
+import java.util.Map;
+
 /**
  * PointsLinkService
  *
@@ -11,4 +13,7 @@ import com.gdgxwl.points.repository.PointsLinkDao;
  * @since 1.0
  */
 public interface PointsLinkService extends BaseService<PointsLinkDao, PointsLink, String> {
+
+    Map<String, Object> doSelectLink(String id) throws Exception;
+
 }

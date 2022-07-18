@@ -1,5 +1,6 @@
 package com.gdgxwl.points.web;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.gdgxwl.base.common.ConfigUtil;
 import com.gdgxwl.core.common.web.SearchUtil;
 import com.gdgxwl.points.domain.PointsProduct;
@@ -49,8 +50,8 @@ public class PointsProductController {
     @RequiresPermissions("PRODUCT_EDIT")
     @RequestMapping(value = "/get/{id}")
     @ResponseBody
-    public Map<String, Object> get(@PathVariable Integer id) {
-        return pointsProductService.doSelect(id);
+    public Map<String, Object> get(@PathVariable Integer id) throws Exception {
+        return pointsProductService.doSelectProduct(id);
     }
 
     // 删除商品

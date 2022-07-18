@@ -26,22 +26,28 @@
 
 <body>
 <div class="content">
-	<div id="list" style="height: 340px;padding-top:40px">
+	<div id="list" style="height: 360px;padding-top:40px">
 		<form id="dataForm">
+			<input id="id" name="id" type="hidden">
 		    <input id="productId" name="productId" type="hidden">
-			<input id="product_copyright" name="product_copyright" type="hidden">
 			<table class="g-form" style="height:100%" cellpadding="0" cellspacing="0">
 				<tbody>
 					<tr>
 						<td class="">
-							<label class="form-label" for="product_name" title="商品">商品</label>
-							<input id="product_name" name="product_name" class="easyui-validatebox form-control" readonly>
+							<label class="form-label" for="productName" title="商品">商品</label>
+							<input id="productName" name="productName" class="easyui-validatebox form-control" readonly>
 						</td>
 					</tr>
 					<tr>
 						<td class="">
 							<label class="form-label" for="productPrice" title="价格">商品价格</label>
 							<input id="productPrice" name="productPrice" class="easyui-validatebox form-control" readonly>
+						</td>
+					</tr>
+					<tr>
+						<td class="">
+							<label class="form-label" for="linkTitle" title="标题">标题</label>
+							<input id="linkTitle" name="linkTitle" class="easyui-validatebox form-control">
 						</td>
 					</tr>
 					<tr>
@@ -74,9 +80,9 @@
 					</tr>
 					<tr>
 						<td class="">
-							<label class="form-label" for="recordUrlExpires" title="链接有效时间">链接有效时间</label>
+							<label class="form-label" for="recordUrlExpires" title="链接有效期">链接有效期</label>
 							<input id="recordUrlExpires" name="recordUrlExpires" class="easyui-datetimebox"
-								   data-options="required: true">
+								   data-options="required:true,editable:false">
 						</td>
 					</tr>
 					<tr>
@@ -103,28 +109,32 @@
 <script type="text/javascript">
 	$(function() {
 		let row = window.selectRow;
-        row.productId = row.productId;
-		row.recordPrice = row.productPrice;
-		row.recordAddPoints = row.productAddPoints;
-		row.recordMinusPoints = row.productMinusPoints;
-		row.product_name = row.productName;
-		row.product_copyright = row.productCopyright
 		$("#dataForm").form("load", row);
 
-		let expiresTime = new Date();
-		expiresTime.setMinutes(expiresTime.getMinutes() + ${productUrlExpires});
-		$('#recordUrlExpires').datetimebox('setValue', expiresTime.formatDate('yyyy-MM-dd hh:mm:ss'));
+		if (!row.id) {
+			let expiresTime = new Date();
+			expiresTime.setMinutes(expiresTime.getMinutes() + ${productUrlExpires});
+			$('#recordUrlExpires').datetimebox('setValue', expiresTime.formatDate('yyyy-MM-dd hh:mm:ss'));
+		}
 	});
 
 	function saveRecord() {
 	    if ($("#dataForm").form("validate")) {
             let data = getFormData("#dataForm");
 			data.everLink = $("#everLink:checked").val() || "NO";
+
             let link = {};
-			link.expires = data.recordUrlExpires;
-			delete data.recordUrlExpires;
+            link.id = data.id;
+            link.linkTitle = data.linkTitle;
+            link.productId = data.productId;
+
+            delete data.id;
+			delete data.linkTitle;
+			delete data.productId;
+			delete data.productName;
+			delete data.productPrice;
+
 			link.params = JSON.stringify(data);
-			console.log(link)
             window.actions.confirm(link);
 	    }
 	}
