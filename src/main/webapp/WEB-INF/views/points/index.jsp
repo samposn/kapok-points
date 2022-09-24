@@ -10,6 +10,14 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctx}/favicon.ico" />
 
     <link rel="stylesheet" href="${ctx}/resources/css/points/style.css">
+    <style>
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+
+
 </head>
 <body>
 <header class="header">
@@ -93,7 +101,7 @@
     </section>
 </main>
 <footer>
-    <h3><span>粤ICP备 2022046370号</span><span>粤公安网备 44172302000106号</span></h3>
+    <h3><span><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备 2022046370号</a></span><span><a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44172302000106" target="_blank">粤公安网备 44172302000106号</a></span></h3>
 </footer>
 
 <script src="${ctx}/resources/js/jquery@3.6.0/jquery-3.6.0.min.js"></script>
