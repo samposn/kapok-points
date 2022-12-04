@@ -7,6 +7,7 @@
 
 <c:set var="company_name" value="广东国信物联信息科技有限公司" scope="page"/>
 <c:set var="system_name" value="积分管理系统" scope="page"/>
+<c:set var="web_name" value="舞幺幺档案" scope="page"/>
 <c:set var="keywords" value="广东国信物联信息科技有限公司,nateiot,物联网,国信物联" scope="page"/>
 <c:set var="copyright" value="Copyright © 2016.  " scope="page"/>
 

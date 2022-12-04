@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>商品管理</title>
+	<title>${system_name}</title>
 	
     <link rel="shortcut icon" href="${ctx}/resources/images/logo_16.ico">
 	<link rel="stylesheet" href="${ctx}/resources/libs/${fontAwesome}/css/font-awesome.min.css">

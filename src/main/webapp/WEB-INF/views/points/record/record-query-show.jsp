@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5">
-    <title>${system_name}</title>
+    <title>${web_name}</title>
     <link rel="shortcut icon" type="image/x-icon" href="${ctx}/favicon.ico" />
 
     <link rel="stylesheet" href="${ctx}/resources/css/bootstrap@5.0.2/bootstrap.min.css" />

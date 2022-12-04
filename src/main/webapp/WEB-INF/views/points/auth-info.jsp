@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>index</title>
+    <title>${web_name}</title>
     <style>
         @font-face {
             font-family: octicons-anchor;
