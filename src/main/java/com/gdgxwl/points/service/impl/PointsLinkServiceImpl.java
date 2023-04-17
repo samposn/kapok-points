@@ -41,21 +41,30 @@ public class PointsLinkServiceImpl extends
     @Override
     public Map<String, Object> doSelectLink(String id) throws Exception {
 
-        String pointsLinkJsonStr = JsonUtil.toJsonString(pointsLinkDao.findOne(id));
-        JSONObject pointsLink = JSON.parseObject(pointsLinkJsonStr);
+        PointsLink pointsLink = pointsLinkDao.findOne(id);
+        if (pointsLink == null) {
+            resetResultMap();
+            resultMap.put("resultCode", 1);
+            resultMap.put("errorCode", "");
+            resultMap.put("resultMsg", "找不到对应商品的授权登记链接！请联系商家。");
+            return resultMap;
+        }
 
-        Integer productId = pointsLink.getInteger("productId");
+        String pointsLinkJsonStr = JsonUtil.toJsonString(pointsLink);
+        JSONObject pointsLinkJsonObject = JSON.parseObject(pointsLinkJsonStr);
+
+        Integer productId = pointsLinkJsonObject.getInteger("productId");
         PointsProduct pointsProduct = pointsProductDao.findOne(productId);
 
-        pointsLink.put("productPrice", pointsProduct.getProductPrice());
-        pointsLink.put("productName", pointsProduct.getProductName());
-        pointsLink.put("productCopyright", pointsProduct.getProductCopyright());
+        pointsLinkJsonObject.put("productPrice", pointsProduct.getProductPrice());
+        pointsLinkJsonObject.put("productName", pointsProduct.getProductName());
+        pointsLinkJsonObject.put("productCopyright", pointsProduct.getProductCopyright());
 
         resetResultMap();
         resultMap.put("resultCode", 0);
         resultMap.put("errorCode", "");
         resultMap.put("resultMsg", "查询成功");
-        resultMap.put("row", pointsLink);
+        resultMap.put("row", pointsLinkJsonObject);
 
         return resultMap;
     }
